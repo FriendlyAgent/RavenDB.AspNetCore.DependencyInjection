@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RavenDB.AspNetCore.DependencyInjection", "src\RavenDB.AspNetCore.DependencyInjection\RavenDB.AspNetCore.DependencyInjection.xproj", "{02B5DD35-35DC-4DAE-8B39-C05314E83864}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5399A49C-3FEE-4145-8500-B4A1E06C9DBF}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Sample.Project", "samples\Sample.Project\Sample.Project.xproj", "{09A79638-4CE9-4045-9853-974B06987FC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,11 +26,16 @@ Global
 		{02B5DD35-35DC-4DAE-8B39-C05314E83864}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02B5DD35-35DC-4DAE-8B39-C05314E83864}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02B5DD35-35DC-4DAE-8B39-C05314E83864}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09A79638-4CE9-4045-9853-974B06987FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09A79638-4CE9-4045-9853-974B06987FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09A79638-4CE9-4045-9853-974B06987FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09A79638-4CE9-4045-9853-974B06987FC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{02B5DD35-35DC-4DAE-8B39-C05314E83864} = {C363CB48-6225-4EB2-9476-7F0A4CE21336}
+		{09A79638-4CE9-4045-9853-974B06987FC7} = {5399A49C-3FEE-4145-8500-B4A1E06C9DBF}
 	EndGlobalSection
 EndGlobal
