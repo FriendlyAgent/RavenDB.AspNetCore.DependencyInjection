@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
-namespace Sample.Project
+namespace DependencyInjectionWithConfig
 {
     public class Program
     {

@@ -6,16 +6,10 @@ namespace RavenDB.AspNetCore.DependencyInjection
     public static class RavenServiceCollectionExtensions
     {
         public static RavenBuilder AddRaven(
-            this IServiceCollection services)
-        {
-            return AddRaven(services, null);
-        }
-
-        public static RavenBuilder AddRaven(
             this IServiceCollection services,
-            Action<RavenOptions> options)
+            Action<RavenManagerOptions> options)
         {
-            return AddRaven<RavenManager, RavenOptions>(services, options);
+            return AddRaven<RavenManager, RavenManagerOptions>(services, options);
         }
 
         public static RavenBuilder AddRaven<TValue, TOptions>(
@@ -34,7 +28,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
             this IServiceCollection services)
             where TValue : class, IRavenManager
         {
-            services.AddScoped<IRavenManager, TValue>();
+            services.AddSingleton<IRavenManager, TValue>();
 
             return new RavenBuilder(services);
         }
