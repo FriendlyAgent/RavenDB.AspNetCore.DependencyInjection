@@ -8,15 +8,14 @@ namespace RavenDB.AspNetCore.DependencyInjection
 
         public RavenManagerOptions()
         {
-            DefaultConventions = new DocumentConventions();
             Servers = new ConcurrentDictionary<string, RavenServerOptions>();
         }
 
         public string DefaultServer { get; set; }
 
-        public DocumentConventions DefaultConventions { get; set; } = new DocumentConventions();
+        public DocumentConventions DefaultConventions { get; set; }
 
-        public ConcurrentDictionary<string, RavenServerOptions> Servers { get; set; } = new ConcurrentDictionary<string, RavenServerOptions>();
+        public ConcurrentDictionary<string, RavenServerOptions> Servers { get; set; }
 
         public void AddServer(
             string name,

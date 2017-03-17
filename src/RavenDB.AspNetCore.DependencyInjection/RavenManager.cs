@@ -23,7 +23,9 @@ namespace RavenDB.AspNetCore.DependencyInjection
         {
             _disposed = false;
             DefaultServer = options.Value.DefaultServer;
-            DefaultConventions = options.Value.DefaultConventions;
+            DefaultConventions = options.Value.DefaultConventions != null ?
+                options.Value.DefaultConventions : new DocumentConventions();
+
             _stores = new ConcurrentDictionary<string, Lazy<IDocumentStore>>();
             _servers = options.Value.Servers;
         }
@@ -44,7 +46,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
 
-            return _stores.GetOrAdd(name, CreateDocumentStore).Value;
+            return _stores.GetOrAdd(name, CreateDocumentStore(name)).Value;
         }
 
         public IAsyncDocumentSession GetAsyncSession()
@@ -145,7 +147,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
 
-            return _servers.Remove(name);
+            return (_servers.Remove(name) && _stores.Remove(name));
         }
 
         public void Dispose()
