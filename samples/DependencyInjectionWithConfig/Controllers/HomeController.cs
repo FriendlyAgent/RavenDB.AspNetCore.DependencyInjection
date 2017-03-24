@@ -5,7 +5,7 @@ using RavenDB.AspNetCore.DependencyInjection;
 namespace DependencyInjectionWithConfig.Controllers
 {
     public class HomeController
-                : Controller
+        : Controller
     {
         private readonly IAsyncDocumentSession _session;
         private readonly IRavenManager _ravenManager;

@@ -16,8 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5399
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DependencyInjectionWithConfig", "samples\DependencyInjectionWithConfig\DependencyInjectionWithConfig.xproj", "{973EF2A3-3A77-4207-8F77-03E018323829}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DependencyInjectionWithSettings", "samples\DependencyInjectionWithSettings\DependencyInjectionWithSettings.xproj", "{5D70D1E3-932F-48F6-8278-0A8F362C4F5C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,10 +30,6 @@ Global
 		{973EF2A3-3A77-4207-8F77-03E018323829}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{973EF2A3-3A77-4207-8F77-03E018323829}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{973EF2A3-3A77-4207-8F77-03E018323829}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D70D1E3-932F-48F6-8278-0A8F362C4F5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D70D1E3-932F-48F6-8278-0A8F362C4F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D70D1E3-932F-48F6-8278-0A8F362C4F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D70D1E3-932F-48F6-8278-0A8F362C4F5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +37,5 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{02B5DD35-35DC-4DAE-8B39-C05314E83864} = {C363CB48-6225-4EB2-9476-7F0A4CE21336}
 		{973EF2A3-3A77-4207-8F77-03E018323829} = {5399A49C-3FEE-4145-8500-B4A1E06C9DBF}
-		{5D70D1E3-932F-48F6-8278-0A8F362C4F5C} = {5399A49C-3FEE-4145-8500-B4A1E06C9DBF}
 	EndGlobalSection
 EndGlobal

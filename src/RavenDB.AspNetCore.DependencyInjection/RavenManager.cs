@@ -8,6 +8,9 @@ using System;
 
 namespace RavenDB.AspNetCore.DependencyInjection
 {
+    /// <summary>
+    /// Represents a class responsible for the managing of sessions and stores.
+    /// </summary>
     public class RavenManager
            : IRavenManager, IDisposable
     {
@@ -18,6 +21,10 @@ namespace RavenDB.AspNetCore.DependencyInjection
         private ConcurrentDictionary<string, Lazy<IDocumentStore>> _stores;
         private ConcurrentDictionary<string, RavenServerOptions> _servers;
 
+        /// <summary>
+        /// Initializes a new instance of the RavenManager class with specified options.
+        /// </summary>
+        /// <param name="options">Options that are used to configuration the RavenManager.</param>
         public RavenManager(
             IOptions<RavenManagerOptions> options)
         {
@@ -30,29 +37,43 @@ namespace RavenDB.AspNetCore.DependencyInjection
             _servers = options.Value.Servers;
         }
 
+        /// <summary>
+        /// Get a store from the default server.
+        /// </summary>
+        /// <returns>The store from the default server.</returns>
         public IDocumentStore GetStore()
         {
             if (DefaultServer == null)
-                throw new ArgumentNullException(nameof(DefaultServer));
+                throw new RavenManagerException("There was no default server configured.");
 
             return GetStore(DefaultServer);
         }
 
-        public IDocumentStore GetStore(string name)
+        /// <summary>
+        /// Get the store from the specified server.
+        /// </summary>
+        /// <param name="serverName">The name of the server to get.</param>
+        /// <returns>The store from the specified server.</returns>
+        public IDocumentStore GetStore(
+            string serverName)
         {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(_stores));
+            ThrowIfDisposed();
 
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
+            if (serverName == null)
+                throw new ArgumentNullException(nameof(serverName));
 
-            return _stores.GetOrAdd(name, CreateDocumentStore(name)).Value;
+            return _stores.GetOrAdd(serverName, CreateDocumentStore(serverName)).Value;
         }
 
+
+        /// <summary>
+        /// Gets a asynchronous session that uses the default server and database.
+        /// </summary>
+        /// <returns>a asynchronous session for the default server and database.</returns>
         public IAsyncDocumentSession GetAsyncSession()
         {
             if (DefaultServer == null)
-                throw new ArgumentNullException(nameof(DefaultServer));
+                throw new RavenManagerException("There was no default server configured.");
 
             return GetAsyncSession(new RavenConnection()
             {
@@ -60,6 +81,11 @@ namespace RavenDB.AspNetCore.DependencyInjection
             });
         }
 
+        /// <summary>
+        /// Gets a asynchronous session that uses the specified server and database <see cref="RavenConnection"/>.
+        /// </summary>
+        /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
+        /// <returns>the specified asynchronous Session.</returns>
         public IAsyncDocumentSession GetAsyncSession(
             RavenConnection connection)
         {
@@ -73,10 +99,14 @@ namespace RavenDB.AspNetCore.DependencyInjection
                 return store.OpenAsyncSession(connection.Database);
         }
 
+        /// <summary>
+        /// Gets a session that uses the default server and database.
+        /// </summary>
+        /// <returns>a session for the default server and database.</returns>
         public IDocumentSession GetSession()
         {
             if (DefaultServer == null)
-                throw new ArgumentNullException(nameof(DefaultServer));
+                throw new RavenManagerException("There was no default server configured.");
 
             return GetSession(new RavenConnection()
             {
@@ -84,6 +114,11 @@ namespace RavenDB.AspNetCore.DependencyInjection
             });
         }
 
+        /// <summary>
+        /// Gets a session that uses the specified server and database <see cref="RavenConnection"/>.
+        /// </summary>
+        /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
+        /// <returns>The specified Session.</returns>
         public IDocumentSession GetSession(
             RavenConnection connection)
         {
@@ -97,15 +132,20 @@ namespace RavenDB.AspNetCore.DependencyInjection
                 return store.OpenSession(connection.Database);
         }
 
-        private Lazy<IDocumentStore> CreateDocumentStore(string name)
+        /// <summary>
+        /// Create a new document store
+        /// </summary>
+        /// <param name="serverName">The name of the server which you want to create a document store for.</param>
+        /// <returns></returns>
+        private Lazy<IDocumentStore> CreateDocumentStore(
+            string serverName)
         {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(_servers));
+            ThrowIfDisposed();
 
-            if (!_servers.ContainsKey(name))
-                throw new RavenManagerException();
+            if (!_servers.ContainsKey(serverName))
+                throw new RavenManagerException("Unable to find specified server: {0}.", serverName);
 
-            var server = _servers[name];
+            var server = _servers[serverName];
             return new Lazy<IDocumentStore>(() =>
             {
                 var store = new DocumentStore
@@ -124,38 +164,63 @@ namespace RavenDB.AspNetCore.DependencyInjection
             });
         }
 
+        /// <summary>
+        /// Add a server to the raven manager.
+        /// </summary>
+        /// <param name="serverName">The name of the server.</param>
+        /// <param name="server">The options for the server.</param>
+        /// <returns>a bool which is true if the server was successfully added.</returns>
         public bool AddServer(
-            string name, RavenServerOptions server)
+            string serverName, RavenServerOptions server)
         {
-            if (_disposed)
-                throw new ObjectDisposedException(nameof(_servers));
+            ThrowIfDisposed();
 
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
+            if (serverName == null)
+                throw new ArgumentNullException(nameof(serverName));
 
             if (server == null)
                 throw new ArgumentNullException(nameof(server));
 
-            return _servers.TryAdd(name, server);
+            return _servers.TryAdd(serverName, server);
         }
 
-        public bool RemoveServer(string name)
+        /// <summary>
+        /// Remove a server from the raven manager.
+        /// </summary>
+        /// <param name="serverName">The name of the server.</param>
+        /// <returns>a bool which is true if the server was successfully removed.</returns>
+        public bool RemoveServer(string serverName)
+        {
+            ThrowIfDisposed();
+
+            if (serverName == null)
+                throw new ArgumentNullException(nameof(serverName));
+
+            return (_servers.Remove(serverName) && _stores.Remove(serverName));
+        }
+
+        /// <summary>
+        /// Throws if this class has been disposed.
+        /// </summary>
+        protected void ThrowIfDisposed()
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(_servers));
-
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
-            return (_servers.Remove(name) && _stores.Remove(name));
+                throw new ObjectDisposedException(GetType().Name);
         }
 
+        /// <summary>
+        /// Dispose the stores and servers.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Dispose the stores and servers.
+        /// </summary>
+        /// <param name="disposing">Whether the class is actually disposing.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
