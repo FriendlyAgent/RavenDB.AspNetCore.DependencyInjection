@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RavenDB.AspNetCore.DependencyInjection;
+using RavenDB.AspNetCore.DependencyInjection.Options;
 
-namespace DependencyInjectionWithConfig
+namespace DependencyInjectionWithConfig.Sample
 {
     public class Startup
     {

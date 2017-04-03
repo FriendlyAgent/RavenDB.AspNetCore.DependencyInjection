@@ -2,7 +2,7 @@
 using Raven.Client.Documents.Session;
 using RavenDB.AspNetCore.DependencyInjection;
 
-namespace DependencyInjectionWithConfig.Controllers
+namespace DependencyInjectionWithConfig.Sample.Controllers
 {
     public class HomeController
         : Controller

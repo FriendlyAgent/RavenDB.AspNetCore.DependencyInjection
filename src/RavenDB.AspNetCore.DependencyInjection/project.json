@@ -1,15 +1,34 @@
 {
-  "version": "1.0.0-*",
-
+  "authors": [ "FriendlyAgent" ],
+  "buildOptions": {
+    "xmlDoc": true
+  },
+  "copyright": "Copyright 2017",
   "dependencies": {
     "Microsoft.Extensions.Options": "1.1.1",
     "NETStandard.Library": "1.6.1",
     "Raven.Client": "4.0.0-alpha-40010"
   },
-
+  "description": "Dependency Injection package for using RavenDB with ASP.NET Core.",
   "frameworks": {
     "netstandard1.6": {
       "imports": "dnxcore50"
     }
-  }
+  },
+  "language": "en",
+  "packOptions": {
+    "projectUrl": "https://github.com/FriendlyAgent/RavenDB.AspNetCore.DependencyInjection",
+    "iconUrl": "http://static.ravendb.net/logo-for-nuget.png",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/FriendlyAgent/RavenDB.AspNetCore.DependencyInjection"
+    },
+    "licenseUrl": "https://github.com/FriendlyAgent/RavenDB.AspNetCore.DependencyInjection/blob/master/LICENSE",
+    "tags": [ "nosql", "ravendb", "raven", "document", "database", "client", "dependency", "injection", "ASP.NET", "core" ],
+    "owners": [ "FriendlyAgent" ],
+    "requireLicenseAcceptance": false,
+    "summary": "Dependency Injection for RavenDB"
+  },
+  "title": "RavenDB AspNetCore DependencyInjection",
+  "version": "1.0.5-beta"
 }

@@ -9,21 +9,24 @@ namespace RavenDB.AspNetCore.DependencyInjection
     /// </summary>
     public class RavenBuilder
     {
+        /// <summary>
+        /// A class responsible the the injection of sessions
+        /// </summary>
         public IServiceCollection Services { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the RavenBuilder class.
-        /// </summary>
         /// <param name="services">The services available in the application.</param>
+        /// </summary>
         public RavenBuilder(IServiceCollection services)
         {
             Services = services;
         }
 
         /// <summary>
-        /// Adds a asynchronous session that uses a Func to get the specifies server and database when requested <see cref="RavenConnection"/>.
+        /// Adds a asynchronous session that uses a Func to get the specifies server and database when requested.
         /// </summary>
-        /// <param name="getConnection">The action used to get the connection class which in turn will be used to establish the session <see cref="RavenConnection"/>.</param>
+        /// <param name="getConnection">The action used to get the connection class which in turn will be used to establish the session.</param>
         /// <returns>The <see cref="RavenBuilder"/> this method is contained in.</returns>
         public RavenBuilder AddAsyncSession(
             Func<IServiceProvider, RavenConnection> getConnection)
@@ -45,7 +48,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         }
 
         /// <summary>
-        /// Adds a asynchronous session that uses the specified server and database <see cref="RavenConnection"/>.
+        /// Adds a asynchronous session that uses the specified server and database.
         /// </summary>
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
         /// <returns>The <see cref="RavenBuilder"/> this method is contained in.</returns>
@@ -107,9 +110,9 @@ namespace RavenDB.AspNetCore.DependencyInjection
         }
 
         /// <summary>
-        /// Adds a synchronous session that uses a Func to get the specifies server and database when requested <see cref="RavenConnection"/>.
+        /// Adds a synchronous session that uses a Func to get the specifies server and database when requested.
         /// </summary>
-        /// <param name="getConnection">The action used to get the connection class which in turn will be used to establish the session <see cref="RavenConnection"/>.</param>
+        /// <param name="getConnection">The action used to get the connection class which in turn will be used to establish the session.</param>
         /// <returns>The <see cref="RavenBuilder"/> this method is contained in.</returns>
         public RavenBuilder AddSession(
          Func<IServiceProvider, RavenConnection> getConnection)
@@ -131,7 +134,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         }
 
         /// <summary>
-        /// Adds a synchronous session that uses the specified server and database <see cref="RavenConnection"/>.
+        /// Adds a synchronous session that uses the specified server and database
         /// </summary>
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
         /// <returns>The <see cref="RavenBuilder"/> this method is contained in.</returns>

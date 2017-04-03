@@ -1,6 +1,9 @@
 # RavenDB.AspNetCore.DependencyInjection
 Dependency Injection package for using RavenDB with ASP.NET Core.
 
+[![Docker Stars](https://img.shields.io/nuget/v/RavenDB.AspNetCore.DependencyInjection.svg?style=flat)](https://www.nuget.org/packages/RavenDB.AspNetCore.DependencyInjection/)
+[![Docker Pulls](https://img.shields.io/nuget/vpre/RavenDB.AspNetCore.DependencyInjection.svg?style=flat)](https://www.nuget.org/packages/RavenDB.AspNetCore.DependencyInjection/)
+
 This package handles the injection of DocumentSession( or AsyncDocumentSession) for you and while keeping track and managing the DocumentStore(s) for you.
 
 ## Getting Started:
@@ -52,3 +55,9 @@ public class HomeController
       }
   }
 ```
+
+# User Feedback
+
+## Issues
+
+If you have any problems with or questions about this image, please contact us through a [GitHub issue](https://github.com/FriendlyAgent/RavenDB.AspNetCore.DependencyInjection/issues).

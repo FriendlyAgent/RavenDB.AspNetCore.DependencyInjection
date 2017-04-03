@@ -1,6 +1,6 @@
 ﻿using Raven.Client.Documents.Conventions;
 
-namespace RavenDB.AspNetCore.DependencyInjection
+namespace RavenDB.AspNetCore.DependencyInjection.Options
 {
     /// <summary>
     /// Represents the options used to configure a server.

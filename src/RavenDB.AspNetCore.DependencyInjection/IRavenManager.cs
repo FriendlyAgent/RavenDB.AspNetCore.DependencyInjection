@@ -1,5 +1,6 @@
 ﻿using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
+using RavenDB.AspNetCore.DependencyInjection.Options;
 
 namespace RavenDB.AspNetCore.DependencyInjection
 {
@@ -14,7 +15,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <param name="serverName">The name of the server to get.</param>
         /// <returns>The store from the specified server.</returns>
         IDocumentStore GetStore(
-            string server);
+            string serverName);
 
         /// <summary>
         /// Get a store from the default server.
@@ -23,7 +24,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         IDocumentStore GetStore();
 
         /// <summary>
-        /// Gets a asynchronous session that uses the specified  server and database <see cref="RavenConnection"/>.
+        /// Gets a asynchronous session that uses the specified  server and database.
         /// </summary>
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
         /// <returns>the specified asynchronous Session.</returns>
@@ -37,7 +38,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         IAsyncDocumentSession GetAsyncSession();
 
         /// <summary>
-        /// Gets a session that uses the specified  server and database <see cref="RavenConnection"/>.
+        /// Gets a session that uses the specified  server and database.
         /// </summary>
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
         IDocumentSession GetSession(
@@ -50,13 +51,14 @@ namespace RavenDB.AspNetCore.DependencyInjection
         IDocumentSession GetSession();
 
         /// <summary>
-        /// Remove a server from the raven manager.
+        /// Add a server to the raven manager.
         /// </summary>
         /// <param name="serverName">The name of the server.</param>
-        /// <returns>a bool which is true if the server was successfully removed.</returns>
+        /// <param name="serverOptions">The options for the server.</param>
+        /// <returns>a bool which is true if the server was successfully added.</returns>
         bool AddServer(
             string serverName,
-            RavenServerOptions server);
+            RavenServerOptions serverOptions);
 
         /// <summary>
         /// Remove a server from the raven manager.

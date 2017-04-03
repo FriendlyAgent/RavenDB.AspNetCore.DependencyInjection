@@ -1,7 +1,7 @@
 ﻿using Raven.Client.Documents.Conventions;
 using Sparrow.Collections.LockFree;
 
-namespace RavenDB.AspNetCore.DependencyInjection
+namespace RavenDB.AspNetCore.DependencyInjection.Options
 {
     /// <summary>
     /// Represents the options used to configure the default manager <see cref="RavenManager"/>.

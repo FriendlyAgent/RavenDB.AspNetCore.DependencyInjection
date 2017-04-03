@@ -3,6 +3,7 @@ using Raven.Client.Documents;
 using Raven.Client.Documents.Conventions;
 using Raven.Client.Documents.Session;
 using RavenDB.AspNetCore.DependencyInjection.Exceptions;
+using RavenDB.AspNetCore.DependencyInjection.Options;
 using Sparrow.Collections.LockFree;
 using System;
 
@@ -14,7 +15,14 @@ namespace RavenDB.AspNetCore.DependencyInjection
     public class RavenManager
            : IRavenManager, IDisposable
     {
+        /// <summary>
+        /// The database used when no specific database is specified.
+        /// </summary>
         public string DefaultServer { get; private set; }
+
+        /// <summary>
+        /// The conventions used when no specific conventions are specified.
+        /// </summary>
         public DocumentConventions DefaultConventions { get; private set; }
 
         private bool _disposed;
@@ -28,6 +36,9 @@ namespace RavenDB.AspNetCore.DependencyInjection
         public RavenManager(
             IOptions<RavenManagerOptions> options)
         {
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
             _disposed = false;
             DefaultServer = options.Value.DefaultServer;
             DefaultConventions = options.Value.DefaultConventions != null ?
@@ -44,7 +55,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         public IDocumentStore GetStore()
         {
             if (DefaultServer == null)
-                throw new RavenManagerException("There was no default server configured.");
+                throw new UnknownServerException("There was no default server configured.");
 
             return GetStore(DefaultServer);
         }
@@ -73,7 +84,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         public IAsyncDocumentSession GetAsyncSession()
         {
             if (DefaultServer == null)
-                throw new RavenManagerException("There was no default server configured.");
+                throw new UnknownServerException("There was no default server configured.");
 
             return GetAsyncSession(new RavenConnection()
             {
@@ -82,7 +93,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         }
 
         /// <summary>
-        /// Gets a asynchronous session that uses the specified server and database <see cref="RavenConnection"/>.
+        /// Gets a asynchronous session that uses the specified server and database.
         /// </summary>
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
         /// <returns>the specified asynchronous Session.</returns>
@@ -106,7 +117,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         public IDocumentSession GetSession()
         {
             if (DefaultServer == null)
-                throw new RavenManagerException("There was no default server configured.");
+                throw new UnknownServerException("There was no default server configured.");
 
             return GetSession(new RavenConnection()
             {
@@ -115,7 +126,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         }
 
         /// <summary>
-        /// Gets a session that uses the specified server and database <see cref="RavenConnection"/>.
+        /// Gets a session that uses the specified server and database.
         /// </summary>
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
         /// <returns>The specified Session.</returns>
@@ -143,7 +154,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
             ThrowIfDisposed();
 
             if (!_servers.ContainsKey(serverName))
-                throw new RavenManagerException("Unable to find specified server: {0}.", serverName);
+                throw new UnknownServerException("Unable to find specified server: {0}.", serverName);
 
             var server = _servers[serverName];
             return new Lazy<IDocumentStore>(() =>
@@ -168,20 +179,20 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// Add a server to the raven manager.
         /// </summary>
         /// <param name="serverName">The name of the server.</param>
-        /// <param name="server">The options for the server.</param>
+        /// <param name="serverOptions">The options for the server.</param>
         /// <returns>a bool which is true if the server was successfully added.</returns>
         public bool AddServer(
-            string serverName, RavenServerOptions server)
+            string serverName, RavenServerOptions serverOptions)
         {
             ThrowIfDisposed();
 
             if (serverName == null)
                 throw new ArgumentNullException(nameof(serverName));
 
-            if (server == null)
-                throw new ArgumentNullException(nameof(server));
+            if (serverOptions == null)
+                throw new ArgumentNullException(nameof(serverOptions));
 
-            return _servers.TryAdd(serverName, server);
+            return _servers.TryAdd(serverName, serverOptions);
         }
 
         /// <summary>

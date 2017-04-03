@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RavenDB.AspNetCore.DependencyInjection.Options;
 using System;
 
 namespace RavenDB.AspNetCore.DependencyInjection
@@ -6,7 +7,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
     /// <summary>
     /// Contains extension methods for <see cref="IServiceCollection"/> to configure the Raven services.
     /// </summary>
-    public static class RavenIServiceCollectionExtensions
+    public static class RavenManagerServiceCollectionExtensions
     {
         /// <summary>
         /// Adds a default manager <see cref="RavenManager"/>.
