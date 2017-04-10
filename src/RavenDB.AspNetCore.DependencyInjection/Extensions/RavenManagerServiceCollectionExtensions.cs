@@ -15,11 +15,11 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <param name="services">The services available in the application.</param>
         /// <param name="options">The options used to configure the Raven manager.</param>
         /// <returns>The <see cref="RavenBuilder"/> this method created.</returns>
-        public static RavenBuilder AddRaven(
+        public static RavenBuilder AddRavenManager(
             this IServiceCollection services,
             Action<RavenManagerOptions> options)
         {
-            return AddRaven<RavenManager, RavenManagerOptions>(services, options);
+            return AddRavenManager<RavenManager, RavenManagerOptions>(services, options);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <param name="services">The services available in the application.</param>
         /// <param name="options">The options used to configure the manager.</param>
         /// <returns>The <see cref="RavenBuilder"/> this method created.</returns>
-        public static RavenBuilder AddRaven<TValue, TOptions>(
+        public static RavenBuilder AddRavenManager<TValue, TOptions>(
                this IServiceCollection services,
                Action<TOptions> options = null)
                 where TOptions : class
@@ -39,7 +39,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
             if (options != null)
                 services.Configure(options);
 
-            return AddRaven<TValue>(services);
+            return AddRavenManager<TValue>(services);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <typeparam name="TValue">The type of the specified manager <see cref="IRavenManager"/>.</typeparam>
         /// <param name="services">The services available in the application.</param>
         /// <returns>The <see cref="RavenBuilder"/> this method created.</returns>
-        public static RavenBuilder AddRaven<TValue>(
+        public static RavenBuilder AddRavenManager<TValue>(
             this IServiceCollection services)
             where TValue : class, IRavenManager
         {

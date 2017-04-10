@@ -23,7 +23,7 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
 {
 ...
 	
-  services.AddRaven(
+  services.AddRavenManager(
       options =>
       {
           options.DefaultServer = "Main";
@@ -32,7 +32,7 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
               Url = "{server url}",
               DefaultDatabase = "{default database}"
           });
-      }).AddAsyncSession();
+      }).AddScopedAsyncSession();
 	
 ...
 }
