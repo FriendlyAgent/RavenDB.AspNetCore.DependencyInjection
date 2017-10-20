@@ -49,6 +49,25 @@ namespace RavenDB.AspNetCore.DependencyInjection
 
         /// <summary>
         /// Adds and configures a default <see cref="RavenManager" />
+        /// using options
+        /// </summary>
+        /// <param name="services">Service collection</param>
+        /// <param name="configuration">The configuration used to configure the default Raven server.</param>
+        public static RavenBuilder AddRavenManagerWithDefaultServer(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            var serverOptions = configuration.Get<RavenServerOptions>();
+
+            return AddRavenManager<RavenManager, RavenManagerOptions>(services, options =>
+            {
+                options.DefaultServer = "Main";
+                options.AddServer("Main", serverOptions);
+            });
+        }
+
+        /// <summary>
+        /// Adds and configures a default <see cref="RavenManager" />
         /// using options from the configuration root (typically a config file) that will
         /// bind to <see cref="RavenManagerOptions" />
         /// </summary>

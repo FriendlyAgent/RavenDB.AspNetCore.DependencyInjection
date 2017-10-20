@@ -20,7 +20,55 @@ Install the [RavenDB.AspNetCore.DependencyInjection](https://www.nuget.org/packa
 
 You can now configure the `RavenManager` service in your Startup.cs:
 
-### Use default options from configuration
+### Use default options from configuration for single servers
+
+Pass in a `IConfiguration` to automatically map the values to a `RavenServerOptions` object.
+
+
+```csharp
+public IServiceProvider ConfigureServices(IServiceCollection services)
+{
+...
+	
+  services.AddRavenManagerWithDefaultServer(Configuration.GetSection("Raven"))
+    .AddScopedAsyncSession();
+	
+...
+}
+```
+
+You can specify the default options via configuration, for example in your `appsettings.json` files:
+
+```json
+{
+    "Raven": {
+        "Url": "{server url}",
+        "Database": "{default database}"
+    }
+}
+```
+
+
+### Specify default single server configuration
+
+If you're only using one Raven server, you can configure a single server's options.
+
+```csharp
+public IServiceProvider ConfigureServices(IServiceCollection services)
+{
+...
+	
+  services.AddRavenManagerWithDefaultServer(options => {
+      options.Url = "{server url}";
+      options.Database = "{database name}";
+  })
+    .AddScopedAsyncSession();
+	
+...
+}
+```
+
+### Use default options from configuration for multiple servers
 
 Pass in a `IConfiguration` to automatically map the values to a `RavenManagerOptions` object.
 
@@ -42,34 +90,17 @@ You can specify the default options via configuration, for example in your `apps
 ```json
 {
     "Raven": {
-        "Main": {
-            "Url": "{server url}",
-            "Database": "{default database}"
+        "Servers": {
+            "Main": {
+                "Url": "{server url}",
+                "Database": "{default database}"
+            }
         }
     }
 }
 ```
 
-### Use default server server configuration
-
-If you're only using one Raven server, you can configure a single server's options.
-
-```csharp
-public IServiceProvider ConfigureServices(IServiceCollection services)
-{
-...
-	
-  services.AddRavenManagerWithDefaultServer(options => {
-      options.Url = "{server url}";
-      options.Database = "{database name}";
-  })
-    .AddScopedAsyncSession();
-	
-...
-}
-```
-
-### Configure full RavenManagerOptions
+### Specify manager and options for multiple servers
 
 If you need complete control over the RavenManager, you can configure its options.
 
@@ -110,6 +141,16 @@ public class HomeController
       }
   }
 ```
+
+## Session Services
+
+**AddScopedSession()**
+
+This will add the ability to request `IDocumentSession` with a request-scoped lifetime.
+
+**AddScopedAsyncSession()**
+
+This will add the ability to request `IAsyncDocumentSession` with a request-scoped lifetime.
 
 ## Options
 
