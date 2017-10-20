@@ -6,6 +6,7 @@ using RavenDB.AspNetCore.DependencyInjection.Exceptions;
 using RavenDB.AspNetCore.DependencyInjection.Options;
 using Sparrow.Collections.LockFree;
 using System;
+using System.Linq;
 
 namespace RavenDB.AspNetCore.DependencyInjection
 {
@@ -40,7 +41,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
                 throw new ArgumentNullException(nameof(options));
 
             _disposed = false;
-            DefaultServer = options.Value.DefaultServer;
+            DefaultServer = options.Value.DefaultServer ?? 
+                options.Value.Servers.Keys.FirstOrDefault();
             DefaultConventions = options.Value.DefaultConventions != null ?
                 options.Value.DefaultConventions : new DocumentConventions();
 
