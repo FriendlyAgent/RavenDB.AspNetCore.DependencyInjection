@@ -158,7 +158,7 @@ This will add the ability to request `IAsyncDocumentSession` with a request-scop
 
 You can configure a list of RavenDB servers with friendly names and options.
 
-- **DefaultServer** - The default name of the Raven server to connect to
+- **DefaultServer** (*optional*) - The default name of the Raven server to connect to. If null, will use first server name in `Servers` dictionary.
 - **DefaultConventions** - Default RavenDB document conventions, see [Document Conventions](https://ravendb.net/docs/article-page/3.5/csharp/client-api/configuration/conventions/what-are-conventions)
 - **Servers** - A dictionary of server names and server options
 - **AddServer(string serverName, RavenServerOptions options)** - Add a new server with a friendly name and options
