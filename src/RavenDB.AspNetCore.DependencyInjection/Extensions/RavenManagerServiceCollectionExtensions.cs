@@ -31,14 +31,17 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <param name="options">The options used to configure the default Raven server.</param>
         public static RavenBuilder AddRavenManagerWithDefaultServer(
             this IServiceCollection services,
-            Action<RavenServerOptions> options) {
-            
+            Action<RavenServerOptions> options)
+        {
+
             var serverOptions = new RavenServerOptions();
-            if (options != null) {
+            if (options != null)
+            {
                 options(serverOptions);
             }
 
-            return AddRavenManager<RavenManager, RavenManagerOptions>(services, moptions => {
+            return AddRavenManager<RavenManager, RavenManagerOptions>(services, moptions =>
+            {
                 moptions.DefaultServer = "Main";
                 moptions.AddServer("Main", serverOptions);
             });
@@ -50,15 +53,36 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// bind to <see cref="RavenManagerOptions" />
         /// </summary>
         /// <param name="services">Service collection</param>
-        /// <param name="configuration">Configuration root</param>
-        /// <param name="section">Configuration section (key) to bind to options</param>
+        /// <param name="configuration">Configuration to map from</param>
         public static RavenBuilder AddRavenManager(
             this IServiceCollection services,
-            IConfigurationRoot configuration, string section = "Raven") {
-            
-            services.Configure<RavenManagerOptions>(configuration.GetSection(section));
+            IConfiguration configuration)
+        {
+
+            services.Configure<RavenManagerOptions>(configuration);
 
             return AddRavenManager<RavenManager>(services);
+        }
+
+        /// <summary>
+        /// Adds and configures a default <see cref="RavenManager" />
+        /// using options from the configuration root (typically a config file) that will
+        /// bind to <see cref="RavenManagerOptions" />
+        /// </summary>
+        /// <typeparam name="TValue">The type of the specified manager <see cref="IRavenManager"/>.</typeparam>
+        /// <typeparam name="TOptions">The type of options needed to configure the specified manager.</typeparam>
+        /// <param name="services">Service collection</param>
+        /// <param name="configuration">Configuration to map from</param>
+        public static RavenBuilder AddRavenManager<TValue, TOptions>(
+            this IServiceCollection services,
+            IConfiguration configuration)
+            where TOptions : class
+            where TValue : class, IRavenManager
+        {
+
+            services.Configure<TOptions>(configuration);
+
+            return AddRavenManager<TValue>(services);
         }
 
         /// <summary>
@@ -77,7 +101,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         {
             if (options != null)
                 services.Configure(options);
-                
+
             return AddRavenManager<TValue>(services);
         }
 

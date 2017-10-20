@@ -1,9 +1,11 @@
 ﻿using System;
+using DependencyInjection.Sample.Indexes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Raven.Client.Documents.Indexes;
 using RavenDB.AspNetCore.DependencyInjection;
 using RavenDB.AspNetCore.DependencyInjection.Options;
 
@@ -26,16 +28,12 @@ namespace DependencyInjection.Sample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {                        
-            //services.AddRavenManager(Configuration).AddScopedAsyncSession();
-            // services.AddRavenManagerWithDefaultServer(options => {
-            //     options.Url = "http://localhost:8080";
-            //     options.Database = "testing-di";
-            // }).AddScopedAsyncSession();
+            services.AddRavenManager(Configuration.GetSection("Raven")).AddScopedAsyncSession();
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IRavenManager ravenManager)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -58,6 +56,14 @@ namespace DependencyInjection.Sample
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            ConfigureRaven(ravenManager);
+        }
+
+        protected void ConfigureRaven(IRavenManager manager) {
+            var store = manager.GetStore();
+
+            IndexCreation.CreateIndexes(typeof(Tests_ByName).Assembly, store);
         }
     }
 }
