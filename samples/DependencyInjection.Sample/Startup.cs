@@ -26,7 +26,11 @@ namespace DependencyInjection.Sample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {                        
-            services.AddRavenManager(Configuration).AddScopedAsyncSession();            
+            //services.AddRavenManager(Configuration).AddScopedAsyncSession();
+            // services.AddRavenManagerWithDefaultServer(options => {
+            //     options.Url = "http://localhost:8080";
+            //     options.Database = "testing-di";
+            // }).AddScopedAsyncSession();
             services.AddMvc();
         }
 
