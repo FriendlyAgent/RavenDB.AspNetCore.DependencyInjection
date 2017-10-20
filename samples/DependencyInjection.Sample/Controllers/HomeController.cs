@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Raven.Client.Documents.Session;
 using RavenDB.AspNetCore.DependencyInjection;
 
@@ -17,8 +18,9 @@ namespace DependencyInjection.Sample.Controllers
             _manager = manager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            await _session.LoadAsync<object>("Test/1");
             return View();
         }
 

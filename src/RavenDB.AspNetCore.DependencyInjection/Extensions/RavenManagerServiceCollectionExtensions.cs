@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RavenDB.AspNetCore.DependencyInjection.Options;
 using System;
+using Microsoft.Extensions.Configuration;
 
 namespace RavenDB.AspNetCore.DependencyInjection
 {
@@ -23,6 +24,23 @@ namespace RavenDB.AspNetCore.DependencyInjection
         }
 
         /// <summary>
+        /// Adds and configures a default <see cref="RavenManager" />
+        /// using options from the configuration root (typically a config file) that will
+        /// bind to <see cref="RavenManagerOptions" />
+        /// </summary>
+        /// <param name="services">Service collection</param>
+        /// <param name="configuration">Configuration root</param>
+        /// <param name="section">Configuration section (key) to bind to options</param>
+        public static RavenBuilder AddRavenManager(
+            this IServiceCollection services,
+            IConfigurationRoot configuration, string section = "Raven") {
+            
+            services.Configure<RavenManagerOptions>(configuration.GetSection(section));
+
+            return AddRavenManager<RavenManager>(services);
+        }
+
+        /// <summary>
         /// Adds and configures the specified manager.
         /// </summary>
         /// <typeparam name="TValue">The type of the specified manager <see cref="IRavenManager"/>.</typeparam>
@@ -37,8 +55,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
                 where TValue : class, IRavenManager
         {
             if (options != null)
-                services.Configure(options);
-
+                services.Configure("Raven", options);
+                
             return AddRavenManager<TValue>(services);
         }
 

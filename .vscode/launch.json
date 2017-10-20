@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceRoot}/samples/DependencyInjection.Sample/bin/Debug/netcoreapp1.1/DependencyInjection.Sample.dll",
+            "program": "${workspaceRoot}/samples/DependencyInjection.Sample/bin/Debug/netcoreapp2.0/DependencyInjection.Sample.dll",
             "args": [],
             "cwd": "${workspaceRoot}/samples/DependencyInjection.Sample",
             "stopAtEntry": false,

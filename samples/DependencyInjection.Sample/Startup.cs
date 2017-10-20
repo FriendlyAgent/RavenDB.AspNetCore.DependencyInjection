@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,24 +25,8 @@ namespace DependencyInjection.Sample
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            // Add framework services.
-            services.AddRavenManager(
-              options =>
-              {
-                  options.DefaultServer = "Main";
-                  options.AddServer("Main", new RavenServerOptions()
-                  {
-                      Url = "{server url}",
-                      DefaultDatabase = "{default database}"
-                  });
-                  options.AddServer("Logging", new RavenServerOptions()
-                  {
-                      Url = "{server url}",
-                      DefaultDatabase = "{default database}"
-                  });
-              }).AddScopedAsyncSession();
-
+        {                        
+            services.AddRavenManager(Configuration).AddScopedAsyncSession();            
             services.AddMvc();
         }
 
