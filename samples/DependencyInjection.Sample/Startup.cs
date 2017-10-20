@@ -28,7 +28,34 @@ namespace DependencyInjection.Sample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {                        
+            // Use configuration from appsettings.json
             services.AddRavenManager(Configuration.GetSection("Raven")).AddScopedAsyncSession();
+
+            // Use configuration from appsettings.json
+            services.AddRavenManagerWithDefaultServer(options => {
+                options.Url = "{server url}";
+                options.Database = "{database name}";
+            }).AddScopedAsyncSession();
+
+
+            // Configure full options
+             // Add framework services.
+            services.AddRavenManager(
+              options =>
+              {
+                  options.DefaultServer = "Main";
+                  options.AddServer("Main", new RavenServerOptions()
+                  {
+                      Url = "{server url}",
+                      Database = "{database name}"
+                  });
+                  options.AddServer("Logging", new RavenServerOptions()
+                  {
+                      Url = "{server url}",
+                     Database = "{database name}"
+                  });
+              }).AddScopedAsyncSession();
+
             services.AddMvc();
         }
 
