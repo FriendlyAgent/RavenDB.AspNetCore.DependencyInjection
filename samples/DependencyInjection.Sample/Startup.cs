@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using DependencyInjection.Sample.Indexes;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Raven.Client.Documents.Indexes;
 using RavenDB.AspNetCore.DependencyInjection;
 using RavenDB.AspNetCore.DependencyInjection.Options;
 
@@ -24,8 +27,19 @@ namespace DependencyInjection.Sample
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            // Add framework services.
+        {                        
+            // Use configuration from appsettings.json
+            services.AddRavenManager(Configuration.GetSection("Raven")).AddScopedAsyncSession();
+
+            // Use configuration from appsettings.json
+            services.AddRavenManagerWithDefaultServer(options => {
+                options.Url = "{server url}";
+                options.Database = "{database name}";
+            }).AddScopedAsyncSession();
+
+
+            // Configure full options
+             // Add framework services.
             services.AddRavenManager(
               options =>
               {
@@ -33,12 +47,12 @@ namespace DependencyInjection.Sample
                   options.AddServer("Main", new RavenServerOptions()
                   {
                       Url = "{server url}",
-                      DefaultDatabase = "{default database}"
+                      Database = "{database name}"
                   });
                   options.AddServer("Logging", new RavenServerOptions()
                   {
                       Url = "{server url}",
-                      DefaultDatabase = "{default database}"
+                     Database = "{database name}"
                   });
               }).AddScopedAsyncSession();
 
@@ -46,7 +60,7 @@ namespace DependencyInjection.Sample
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IRavenManager ravenManager)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -69,6 +83,14 @@ namespace DependencyInjection.Sample
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            ConfigureRaven(ravenManager);
+        }
+
+        protected void ConfigureRaven(IRavenManager manager) {
+            var store = manager.GetStore();
+
+            IndexCreation.CreateIndexes(typeof(Tests_ByName).Assembly, store);
         }
     }
 }

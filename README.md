@@ -4,7 +4,7 @@ Dependency Injection package for using RavenDB with ASP.NET Core.
 [![Docker Stars](https://img.shields.io/nuget/v/RavenDB.AspNetCore.DependencyInjection.svg?style=flat)](https://www.nuget.org/packages/RavenDB.AspNetCore.DependencyInjection/)
 [![Docker Pulls](https://img.shields.io/nuget/vpre/RavenDB.AspNetCore.DependencyInjection.svg?style=flat)](https://www.nuget.org/packages/RavenDB.AspNetCore.DependencyInjection/)
 
-This package handles the injection of DocumentSession( or AsyncDocumentSession) for you and while keeping track and managing the DocumentStore(s) for you.
+This package handles the injection of `DocumentSession` (or `AsyncDocumentSession`) for you and while keeping track and managing the DocumentStore(s) for you.
 
 ## Getting Started:
 Install the [RavenDB.AspNetCore.DependencyInjection](https://www.nuget.org/packages/RavenDB.AspNetCore.DependencyInjection) library through [NuGet](https://nuget.org).
@@ -17,7 +17,93 @@ Install the [RavenDB.AspNetCore.DependencyInjection](https://www.nuget.org/packa
 ```    
 
 ## Usage:   
-Add this to your Startup.cs:
+
+You can now configure the `RavenManager` service in your Startup.cs:
+
+### Use default options from configuration for single servers
+
+Pass in a `IConfiguration` to automatically map the values to a `RavenServerOptions` object.
+
+
+```csharp
+public IServiceProvider ConfigureServices(IServiceCollection services)
+{
+...
+	
+  services.AddRavenManagerWithDefaultServer(Configuration.GetSection("Raven"))
+    .AddScopedAsyncSession();
+	
+...
+}
+```
+
+You can specify the default options via configuration, for example in your `appsettings.json` files:
+
+```json
+{
+    "Raven": {
+        "Url": "{server url}",
+        "Database": "{default database}"
+    }
+}
+```
+
+
+### Specify default single server configuration
+
+If you're only using one Raven server, you can configure a single server's options.
+
+```csharp
+public IServiceProvider ConfigureServices(IServiceCollection services)
+{
+...
+	
+  services.AddRavenManagerWithDefaultServer(options => {
+      options.Url = "{server url}";
+      options.Database = "{database name}";
+  })
+    .AddScopedAsyncSession();
+	
+...
+}
+```
+
+### Use default options from configuration for multiple servers
+
+Pass in a `IConfiguration` to automatically map the values to a `RavenManagerOptions` object.
+
+
+```csharp
+public IServiceProvider ConfigureServices(IServiceCollection services)
+{
+...
+	
+  services.AddRavenManager(Configuration.GetSection("Raven"))
+    .AddScopedAsyncSession();
+	
+...
+}
+```
+
+You can specify the default options via configuration, for example in your `appsettings.json` files:
+
+```json
+{
+    "Raven": {
+        "Servers": {
+            "Main": {
+                "Url": "{server url}",
+                "Database": "{default database}"
+            }
+        }
+    }
+}
+```
+
+### Specify manager and options for multiple servers
+
+If you need complete control over the RavenManager, you can configure its options.
+
 ```csharp
 public IServiceProvider ConfigureServices(IServiceCollection services)
 {
@@ -30,7 +116,7 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
           options.AddServer("Main", new RavenServerOptions()
           {
               Url = "{server url}",
-              DefaultDatabase = "{default database}"
+              Database = "{database name}"
           });
       }).AddScopedAsyncSession();
 	
@@ -55,6 +141,33 @@ public class HomeController
       }
   }
 ```
+
+## Session Services
+
+**AddScopedSession()**
+
+This will add the ability to request `IDocumentSession` with a request-scoped lifetime.
+
+**AddScopedAsyncSession()**
+
+This will add the ability to request `IAsyncDocumentSession` with a request-scoped lifetime.
+
+## Options
+
+**RavenManagerOptions**
+
+You can configure a list of RavenDB servers with friendly names and options.
+
+- **DefaultServer** (*optional*) - The default name of the Raven server to connect to. If null, will use first server name in `Servers` dictionary.
+- **DefaultConventions** - Default RavenDB document conventions, see [Document Conventions](https://ravendb.net/docs/article-page/3.5/csharp/client-api/configuration/conventions/what-are-conventions)
+- **Servers** - A dictionary of server names and server options
+- **AddServer(string serverName, RavenServerOptions options)** - Add a new server with a friendly name and options
+
+**RavenServerOptions**
+
+- **Url** - The URL to connect to the Raven server
+- **Database** - The database name to connect to
+- **Conventions** - Any override document conventions
 
 # User Feedback
 
