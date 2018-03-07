@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Conventions;
 using Raven.Client.Documents.Session;
@@ -29,13 +30,16 @@ namespace RavenDB.AspNetCore.DependencyInjection
         private bool _disposed;
         private ConcurrentDictionary<string, Lazy<IDocumentStore>> _stores;
         private ConcurrentDictionary<string, RavenServerOptions> _servers;
+        private IHostingEnvironment _host;
 
         /// <summary>
         /// Initializes a new instance of the RavenManager class with specified options.
         /// </summary>
         /// <param name="options">Options that are used to configuration the RavenManager.</param>
+        /// <param name="host">The hosting environment. This is used to fetch the certificate file used to connect to the database.</param>
         public RavenManager(
-            IOptions<RavenManagerOptions> options)
+            IOptions<RavenManagerOptions> options,
+            IHostingEnvironment host)
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
@@ -48,6 +52,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
 
             _stores = new ConcurrentDictionary<string, Lazy<IDocumentStore>>();
             _servers = options.Value.Servers;
+            _host = host;
         }
 
         /// <summary>
@@ -169,6 +174,22 @@ namespace RavenDB.AspNetCore.DependencyInjection
                     Conventions = server.Conventions != null ?
                         server.Conventions : DefaultConventions
                 };
+
+                var hasCert = !string.IsNullOrWhiteSpace(server.CertificateFileName);
+                if (hasCert)
+                {
+                    var certFilePath = System.IO.Path.Combine(this._host.ContentRootPath, server.CertificateFileName);
+                    var hasCertPassword = !string.IsNullOrWhiteSpace(server.CertificatePassword);
+                    if (hasCertPassword)
+                    {
+                        store.Certificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(certFilePath, server.CertificatePassword);
+                    }
+                    else
+                    {
+                        store.Certificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(certFilePath);
+                    }
+                }
+
                 store.Initialize();
 
                 return store;

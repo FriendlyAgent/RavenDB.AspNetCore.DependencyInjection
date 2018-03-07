@@ -32,29 +32,29 @@ namespace DependencyInjection.Sample
             services.AddRavenManager(Configuration.GetSection("Raven")).AddScopedAsyncSession();
 
             // Use configuration from appsettings.json
-            services.AddRavenManagerWithDefaultServer(options => {
-                options.Url = "{server url}";
-                options.Database = "{database name}";
-            }).AddScopedAsyncSession();
+            //services.AddRavenManagerWithDefaultServer(options => {
+            //    options.Url = "{server url}";
+            //    options.Database = "{database name}";
+            //}).AddScopedAsyncSession();
 
 
             // Configure full options
-             // Add framework services.
-            services.AddRavenManager(
-              options =>
-              {
-                  options.DefaultServer = "Main";
-                  options.AddServer("Main", new RavenServerOptions()
-                  {
-                      Url = "{server url}",
-                      Database = "{database name}"
-                  });
-                  options.AddServer("Logging", new RavenServerOptions()
-                  {
-                      Url = "{server url}",
-                     Database = "{database name}"
-                  });
-              }).AddScopedAsyncSession();
+            // Add framework services.
+            //services.AddRavenManager(
+            //  options =>
+            //  {
+            //      options.DefaultServer = "Main";
+            //      options.AddServer("Main", new RavenServerOptions()
+            //      {
+            //          Url = "{server url}",
+            //          Database = "{database name}"
+            //      });
+            //      options.AddServer("Logging", new RavenServerOptions()
+            //      {
+            //          Url = "{server url}",
+            //         Database = "{database name}"
+            //      });
+            //  }).AddScopedAsyncSession();
 
             services.AddMvc();
         }

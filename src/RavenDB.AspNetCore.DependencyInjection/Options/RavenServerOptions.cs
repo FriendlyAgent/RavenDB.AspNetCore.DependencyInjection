@@ -18,6 +18,16 @@ namespace RavenDB.AspNetCore.DependencyInjection.Options
         public string Database { get; set; }
 
         /// <summary>
+        /// The name of the .pfx file used to connect to a secured Raven instance. For example, if mycert.pfx is in /bin, set this to "mycert.pfx"
+        /// </summary>
+        public string CertificateFileName { get; set; }
+
+        /// <summary>
+        /// The password for the certificate used to connect to a secured Raven instance.
+        /// </summary>
+        public string CertificatePassword { get; set; }
+
+        /// <summary>
         /// The conventions used to determine Client API behavior.
         /// </summary>
         public DocumentConventions Conventions { get; set; }
