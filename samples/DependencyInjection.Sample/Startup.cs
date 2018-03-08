@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RavenDB.AspNetCore.DependencyInjection;
-using RavenDB.AspNetCore.DependencyInjection.Options;
 
 namespace DependencyInjection.Sample
 {
@@ -24,12 +23,13 @@ namespace DependencyInjection.Sample
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {                        
+        {
             // Use configuration from appsettings.json
-            //services
-            //    .AddRavenManager(Configuration.GetSection("RavenManager"))
-            //    .AddScopedAsyncSession();
+            services
+                .AddRavenManager(Configuration.GetSection("RavenManager"))
+                .AddScopedAsyncSession();
 
+            // Use configuration from appsettings.json
             //services
             //    .AddRavenStore(Configuration.GetSection("RavenStore"))
             //    .AddScopedSession();
@@ -39,7 +39,6 @@ namespace DependencyInjection.Sample
             //    options.Url = "{server url}";
             //    options.Database = "{database name}";
             //}).AddScopedAsyncSession();
-
 
             // Configure full options
             // Add framework services.
