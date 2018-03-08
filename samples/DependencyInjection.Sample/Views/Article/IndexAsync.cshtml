@@ -1,0 +1,25 @@
+﻿@model DependencyInjection.Sample.Models.ArticleViewModels.IndexViewModel
+@{
+    ViewData["Title"] = "Article";
+}
+
+<h2>Articles</h2>
+<p>The following results are from: @Model.Store</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var article in Model.Articles)
+        {
+        <tr>
+            <td>@article.Id</td>
+            <td>@article.Name</td>
+        </tr>
+        }
+    </tbody>
+</table>

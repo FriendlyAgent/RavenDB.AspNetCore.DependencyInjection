@@ -1,26 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using DependencyInjection.Sample.Models;
 using Microsoft.AspNetCore.Mvc;
-using Raven.Client.Documents.Session;
-using RavenDB.AspNetCore.DependencyInjection;
+using System.Diagnostics;
 
 namespace DependencyInjection.Sample.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController 
+        : Controller
     {
-        private readonly IAsyncDocumentSession _session;
-        private readonly IRavenManager _manager;
-
-        public HomeController(
-            IAsyncDocumentSession session,
-            IRavenManager manager)
+        public IActionResult Index()
         {
-            _session = session;
-            _manager = manager;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            await _session.LoadAsync<object>("Test/1");
             return View();
         }
 
@@ -40,7 +28,7 @@ namespace DependencyInjection.Sample.Controllers
 
         public IActionResult Error()
         {
-            return View();
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

@@ -31,6 +31,9 @@ namespace RavenDB.AspNetCore.DependencyInjection
         IAsyncDocumentSession GetAsyncSession(
             RavenConnection connection);
 
+        IAsyncDocumentSession GetAsyncSession(
+            string serverName);
+
         /// <summary>
         /// Gets a asynchronous session that uses the default server and database.
         /// </summary>
@@ -43,6 +46,9 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
         IDocumentSession GetSession(
             RavenConnection connection);
+
+        IDocumentSession GetSession(
+            string serverName);
 
         /// <summary>
         /// Gets a session that uses the default server and database.

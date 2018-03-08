@@ -14,7 +14,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
     /// Represents a class responsible for the managing of sessions and stores.
     /// </summary>
     public class RavenManager
-           : IRavenManager, IDisposable
+         : IRavenManager, IDisposable
     {
         /// <summary>
         /// The database used when no specific database is specified.
@@ -41,7 +41,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
                 throw new ArgumentNullException(nameof(options));
 
             _disposed = false;
-            DefaultServer = options.Value.DefaultServer ?? 
+            DefaultServer = options.Value.DefaultServer ??
                 options.Value.Servers.Keys.FirstOrDefault();
             DefaultConventions = options.Value.DefaultConventions != null ?
                 options.Value.DefaultConventions : new DocumentConventions();
@@ -90,7 +90,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
 
             return GetAsyncSession(new RavenConnection()
             {
-                Server = DefaultServer
+                ServerName = DefaultServer
             });
         }
 
@@ -105,7 +105,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
             if (connection == null)
                 throw new ArgumentNullException(nameof(connection));
 
-            var store = GetStore(connection.Server);
+            var store = GetStore(connection.ServerName);
             if (connection.Database == null)
                 return store.OpenAsyncSession();
             else
@@ -123,7 +123,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
 
             return GetSession(new RavenConnection()
             {
-                Server = DefaultServer
+                ServerName = DefaultServer
             });
         }
 
@@ -138,7 +138,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
             if (connection == null)
                 throw new ArgumentNullException(nameof(connection));
 
-            var store = GetStore(connection.Server);
+            var store = GetStore(connection.ServerName);
             if (connection.Database == null)
                 return store.OpenSession();
             else
@@ -162,10 +162,10 @@ namespace RavenDB.AspNetCore.DependencyInjection
             return new Lazy<IDocumentStore>(() =>
             {
                 var store = new DocumentStore
-                {                    
-                    Urls = new [] { server.Url },
-                    Database = server.Database != null ?
-                        server.Database : "",
+                {
+                    Urls = new[] { server.Url },
+                    Database = server.DefaultDatabase != null ?
+                        server.DefaultDatabase : "",
                     Conventions = server.Conventions != null ?
                         server.Conventions : DefaultConventions
                 };
@@ -244,6 +244,28 @@ namespace RavenDB.AspNetCore.DependencyInjection
 
                 _disposed = true;
             }
+        }
+
+        public IAsyncDocumentSession GetAsyncSession(string serverName)
+        {
+            if (serverName == null)
+                throw new ArgumentNullException(nameof(serverName));
+
+            return GetAsyncSession(new RavenConnection()
+            {
+                ServerName = serverName
+            });
+        }
+
+        public IDocumentSession GetSession(string serverName)
+        {
+            if (serverName == null)
+                throw new ArgumentNullException(nameof(serverName));
+
+            return GetSession(new RavenConnection()
+            {
+                ServerName = serverName
+            });
         }
     }
 }

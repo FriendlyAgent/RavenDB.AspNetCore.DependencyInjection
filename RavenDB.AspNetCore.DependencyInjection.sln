@@ -1,19 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C363CB48-6225-4EB2-9476-7F0A4CE21336}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5399A49C-3FEE-4145-8500-B4A1E06C9DBF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B7A1FACF-A845-4F63-BEC3-94001A4D93F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RavenDB.AspNetCore.DependencyInjection", "src\RavenDB.AspNetCore.DependencyInjection\RavenDB.AspNetCore.DependencyInjection.csproj", "{FD165F73-F347-4279-A8A9-454D04EF8084}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RavenDB.AspNetCore.DependencyInjection", "src\RavenDB.AspNetCore.DependencyInjection\RavenDB.AspNetCore.DependencyInjection.csproj", "{FD165F73-F347-4279-A8A9-454D04EF8084}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RavenDB.AspNetCore.DependencyInjection.Test", "tests\RavenDB.AspNetCore.DependencyInjection.Test\RavenDB.AspNetCore.DependencyInjection.Test.csproj", "{01C6C8C1-9942-467E-9317-2FD2119F0389}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection.Sample", "samples\DependencyInjection.Sample\DependencyInjection.Sample.csproj", "{4980DBB4-7155-4C44-A7B2-4F939FC755DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection.Sample", "samples\DependencyInjection.Sample\DependencyInjection.Sample.csproj", "{C4FA2EAB-AC84-4477-AA7B-B58FB17530A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,21 +21,19 @@ Global
 		{FD165F73-F347-4279-A8A9-454D04EF8084}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD165F73-F347-4279-A8A9-454D04EF8084}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD165F73-F347-4279-A8A9-454D04EF8084}.Release|Any CPU.Build.0 = Release|Any CPU
-		{01C6C8C1-9942-467E-9317-2FD2119F0389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{01C6C8C1-9942-467E-9317-2FD2119F0389}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{01C6C8C1-9942-467E-9317-2FD2119F0389}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{01C6C8C1-9942-467E-9317-2FD2119F0389}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4980DBB4-7155-4C44-A7B2-4F939FC755DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4980DBB4-7155-4C44-A7B2-4F939FC755DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4980DBB4-7155-4C44-A7B2-4F939FC755DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4980DBB4-7155-4C44-A7B2-4F939FC755DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4FA2EAB-AC84-4477-AA7B-B58FB17530A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4FA2EAB-AC84-4477-AA7B-B58FB17530A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4FA2EAB-AC84-4477-AA7B-B58FB17530A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4FA2EAB-AC84-4477-AA7B-B58FB17530A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FD165F73-F347-4279-A8A9-454D04EF8084} = {C363CB48-6225-4EB2-9476-7F0A4CE21336}
-		{01C6C8C1-9942-467E-9317-2FD2119F0389} = {B7A1FACF-A845-4F63-BEC3-94001A4D93F9}
-		{4980DBB4-7155-4C44-A7B2-4F939FC755DF} = {5399A49C-3FEE-4145-8500-B4A1E06C9DBF}
+		{C4FA2EAB-AC84-4477-AA7B-B58FB17530A8} = {5399A49C-3FEE-4145-8500-B4A1E06C9DBF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B3E1419-C058-404B-A7DD-6871580A0A91}
 	EndGlobalSection
 EndGlobal

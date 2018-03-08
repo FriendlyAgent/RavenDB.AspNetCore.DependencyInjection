@@ -33,12 +33,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
             this IServiceCollection services,
             Action<RavenServerOptions> options)
         {
-
             var serverOptions = new RavenServerOptions();
-            if (options != null)
-            {
-                options(serverOptions);
-            }
+            options?.Invoke(serverOptions);
 
             return AddRavenManager<RavenManager, RavenManagerOptions>(services, moptions =>
             {
@@ -77,7 +73,6 @@ namespace RavenDB.AspNetCore.DependencyInjection
             this IServiceCollection services,
             IConfiguration configuration)
         {
-
             services.Configure<RavenManagerOptions>(configuration);
 
             return AddRavenManager<RavenManager>(services);
@@ -98,7 +93,6 @@ namespace RavenDB.AspNetCore.DependencyInjection
             where TOptions : class
             where TValue : class, IRavenManager
         {
-
             services.Configure<TOptions>(configuration);
 
             return AddRavenManager<TValue>(services);

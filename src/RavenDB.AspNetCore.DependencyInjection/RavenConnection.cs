@@ -15,24 +15,24 @@
         /// <summary>
         /// Initializes a new instance of the RavenConnection class with a specified server
         /// </summary>
-        /// <param name="server">The url to a server.</param>
+        /// <param name="serverName">The url to a server.</param>
         public RavenConnection(
-            string server)
-            : this(server, null)
+            string serverName)
+            : this(serverName, null)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the RavenConnection class with a specified server and database
         /// </summary>
-        /// <param name="server">The url to a server.</param>
+        /// <param name="serverName">The url to a server.</param>
         /// <param name="database">The name of a database.</param>
         public RavenConnection(
-            string server,
+            string serverName,
             string database)
         {
             Database = database;
-            Server = server;
+            ServerName = serverName;
         }
 
         /// <summary>
@@ -43,6 +43,6 @@
         /// <summary>
         /// The server used for the session.
         /// </summary>
-        public string Server;
+        public string ServerName;
     }
 }
