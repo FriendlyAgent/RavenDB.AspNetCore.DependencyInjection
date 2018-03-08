@@ -22,7 +22,7 @@ You can now configure the `RavenManager` service in your Startup.cs:
 
 ### Use default options from configuration for single servers
 
-Pass in a `IConfiguration` to automatically map the values to a `RavenServerOptions` object.
+Pass in a `IConfiguration` to automatically map the values to a `RavenStoreOptions` object.
 
 
 ```csharp
@@ -163,14 +163,14 @@ You can configure a list of RavenDB servers with friendly names and options.
 - **Servers** - A dictionary of server names and server options
 - **AddServer(string serverName, RavenServerOptions options)** - Add a new server with a friendly name and options
 
-**RavenServerOptions**
+**RavenStoreOptions**
 
 - **Url** - The URL to connect to the Raven server
-- **Database** - The database name to connect to
+- **DefaultDatabase** - The database name to connect to
 - **Conventions** - Any override document conventions
 
 # User Feedback
 
 ## Issues
 
-If you have any problems with or questions about this image, please contact us through a [GitHub issue](https://github.com/FriendlyAgent/RavenDB.AspNetCore.DependencyInjection/issues).
+If you have any problems with or questions about this package, please contact us through a [GitHub issue](https://github.com/FriendlyAgent/RavenDB.AspNetCore.DependencyInjection/issues).
