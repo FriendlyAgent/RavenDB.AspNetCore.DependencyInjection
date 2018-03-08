@@ -64,7 +64,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <returns>a bool which is true if the server was successfully added.</returns>
         bool AddServer(
             string serverName,
-            RavenServerOptions serverOptions);
+            RavenStoreOptions serverOptions);
 
         /// <summary>
         /// Remove a server from the raven manager.

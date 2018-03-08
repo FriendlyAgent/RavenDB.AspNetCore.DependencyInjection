@@ -3,9 +3,9 @@
 namespace RavenDB.AspNetCore.DependencyInjection.Options
 {
     /// <summary>
-    /// Represents the options used to configure a server.
+    /// Represents the options used to configure a RavenDB Store.
     /// </summary>
-    public class RavenServerOptions
+    public class RavenStoreOptions
     {
         /// <summary>
         /// The url used to connect to a server.

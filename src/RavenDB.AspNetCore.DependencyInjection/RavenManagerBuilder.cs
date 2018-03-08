@@ -7,7 +7,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
     /// <summary>
     /// A class responsible the the injection of sessions
     /// </summary>
-    public class RavenBuilder
+    public class RavenManagerBuilder
     {
         /// <summary>
         /// A class responsible the the injection of sessions
@@ -15,10 +15,10 @@ namespace RavenDB.AspNetCore.DependencyInjection
         public IServiceCollection Services { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the RavenBuilder class.
+        /// Initializes a new instance of the RavenManagerBuilder class.
         /// <param name="services">The services available in the application.</param>
         /// </summary>
-        public RavenBuilder(IServiceCollection services)
+        public RavenManagerBuilder(IServiceCollection services)
         {
             Services = services;
         }
@@ -27,8 +27,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// Adds a asynchronous session that uses a Func to get the specifies server and database when requested.
         /// </summary>
         /// <param name="getConnection">The action used to get the connection class which in turn will be used to establish the session.</param>
-        /// <returns>The <see cref="RavenBuilder"/> this method is contained in.</returns>
-        public RavenBuilder AddScopedAsyncSession(
+        /// <returns>The <see cref="RavenManagerBuilder"/> this method is contained in.</returns>
+        public RavenManagerBuilder AddScopedAsyncSession(
             Func<IServiceProvider, RavenConnection> getConnection)
         {
             if (getConnection == null)
@@ -51,8 +51,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// Adds a asynchronous session that uses the specified server and database.
         /// </summary>
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
-        /// <returns>The <see cref="RavenBuilder"/> this method is contained in.</returns>
-        public RavenBuilder AddScopedAsyncSession(
+        /// <returns>The <see cref="RavenManagerBuilder"/> this method is contained in.</returns>
+        public RavenManagerBuilder AddScopedAsyncSession(
             RavenConnection connection)
         {
             if (connection == null)
@@ -73,8 +73,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// Adds a asynchronous session that uses a specific server and it's default database.
         /// </summary>
         /// <param name="serverName">The name of the server which you want to use to establish the session.</param>
-        /// <returns>The <see cref="RavenBuilder"/> this method is contained in.</returns>
-        public RavenBuilder AddScopedAsyncSession(
+        /// <returns>The <see cref="RavenManagerBuilder"/> this method is contained in.</returns>
+        public RavenManagerBuilder AddScopedAsyncSession(
             string serverName)
         {
             if (serverName == null)
@@ -95,8 +95,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <summary>
         /// Adds a asynchronous session that uses the default server and database.
         /// </summary>
-        /// <returns>The <see cref="RavenBuilder"/> this method is contained in.</returns>
-        public RavenBuilder AddScopedAsyncSession()
+        /// <returns>The <see cref="RavenManagerBuilder"/> this method is contained in.</returns>
+        public RavenManagerBuilder AddScopedAsyncSession()
         {
             Services.AddScoped<IAsyncDocumentSession, IAsyncDocumentSession>(provider =>
             {
@@ -113,8 +113,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// Adds a synchronous session that uses a Func to get the specifies server and database when requested.
         /// </summary>
         /// <param name="getConnection">The action used to get the connection class which in turn will be used to establish the session.</param>
-        /// <returns>The <see cref="RavenBuilder"/> this method is contained in.</returns>
-        public RavenBuilder AddScopedSession(
+        /// <returns>The <see cref="RavenManagerBuilder"/> this method is contained in.</returns>
+        public RavenManagerBuilder AddScopedSession(
          Func<IServiceProvider, RavenConnection> getConnection)
         {
             if (getConnection == null)
@@ -137,8 +137,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// Adds a synchronous session that uses the specified server and database
         /// </summary>
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
-        /// <returns>The <see cref="RavenBuilder"/> this method is contained in.</returns>
-        public RavenBuilder AddScopedSession(
+        /// <returns>The <see cref="RavenManagerBuilder"/> this method is contained in.</returns>
+        public RavenManagerBuilder AddScopedSession(
             RavenConnection connection)
         {
             if (connection == null)
@@ -160,8 +160,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// Adds a synchronous session that uses a specific server and it's default database.
         /// </summary>
         /// <param name="serverName">The name of the server which you want to use to establish the session.</param>
-        /// <returns>The <see cref="RavenBuilder"/> this method is contained in.</returns>
-        public RavenBuilder AddScopedSession(
+        /// <returns>The <see cref="RavenManagerBuilder"/> this method is contained in.</returns>
+        public RavenManagerBuilder AddScopedSession(
             string serverName)
         {
             if (serverName == null)
@@ -182,8 +182,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <summary>
         /// Adds a synchronous session that uses the default server and database.
         /// </summary>
-        /// <returns>The <see cref="RavenBuilder"/> this method is contained in.</returns>
-        public RavenBuilder AddScopedSession()
+        /// <returns>The <see cref="RavenManagerBuilder"/> this method is contained in.</returns>
+        public RavenManagerBuilder AddScopedSession()
         {
             Services.AddScoped<IDocumentSession, IDocumentSession>(provider =>
             {

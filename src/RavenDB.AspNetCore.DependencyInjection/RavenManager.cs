@@ -4,6 +4,7 @@ using Raven.Client.Documents;
 using Raven.Client.Documents.Conventions;
 using Raven.Client.Documents.Session;
 using RavenDB.AspNetCore.DependencyInjection.Exceptions;
+using RavenDB.AspNetCore.DependencyInjection.Helpers;
 using RavenDB.AspNetCore.DependencyInjection.Options;
 using Sparrow.Collections.LockFree;
 using System;
@@ -29,7 +30,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
 
         private bool _disposed;
         private ConcurrentDictionary<string, Lazy<IDocumentStore>> _stores;
-        private ConcurrentDictionary<string, RavenServerOptions> _servers;
+        private ConcurrentDictionary<string, RavenStoreOptions> _servers;
         private IHostingEnvironment _host;
 
         /// <summary>
@@ -166,32 +167,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
             var server = _servers[serverName];
             return new Lazy<IDocumentStore>(() =>
             {
-                var store = new DocumentStore
-                {
-                    Urls = new[] { server.Url },
-                    Database = server.DefaultDatabase != null ?
-                        server.DefaultDatabase : "",
-                    Conventions = server.Conventions != null ?
-                        server.Conventions : DefaultConventions
-                };
-
-                var hasCert = !string.IsNullOrWhiteSpace(server.CertificateFileName);
-                if (hasCert)
-                {
-                    var certFilePath = System.IO.Path.Combine(this._host.ContentRootPath, server.CertificateFileName);
-                    var hasCertPassword = !string.IsNullOrWhiteSpace(server.CertificatePassword);
-                    if (hasCertPassword)
-                    {
-                        store.Certificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(certFilePath, server.CertificatePassword);
-                    }
-                    else
-                    {
-                        store.Certificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(certFilePath);
-                    }
-                }
-
+                var store = RavenHelpers.CreateDocumentStore(_host, server);
                 store.Initialize();
-
                 return store;
             });
         }
@@ -203,7 +180,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <param name="serverOptions">The options for the server.</param>
         /// <returns>a bool which is true if the server was successfully added.</returns>
         public bool AddServer(
-            string serverName, RavenServerOptions serverOptions)
+            string serverName, RavenStoreOptions serverOptions)
         {
             ThrowIfDisposed();
 
@@ -214,6 +191,28 @@ namespace RavenDB.AspNetCore.DependencyInjection
                 throw new ArgumentNullException(nameof(serverOptions));
 
             return _servers.TryAdd(serverName, serverOptions);
+        }
+
+        public IAsyncDocumentSession GetAsyncSession(string serverName)
+        {
+            if (serverName == null)
+                throw new ArgumentNullException(nameof(serverName));
+
+            return GetAsyncSession(new RavenConnection()
+            {
+                ServerName = serverName
+            });
+        }
+
+        public IDocumentSession GetSession(string serverName)
+        {
+            if (serverName == null)
+                throw new ArgumentNullException(nameof(serverName));
+
+            return GetSession(new RavenConnection()
+            {
+                ServerName = serverName
+            });
         }
 
         /// <summary>
@@ -265,28 +264,6 @@ namespace RavenDB.AspNetCore.DependencyInjection
 
                 _disposed = true;
             }
-        }
-
-        public IAsyncDocumentSession GetAsyncSession(string serverName)
-        {
-            if (serverName == null)
-                throw new ArgumentNullException(nameof(serverName));
-
-            return GetAsyncSession(new RavenConnection()
-            {
-                ServerName = serverName
-            });
-        }
-
-        public IDocumentSession GetSession(string serverName)
-        {
-            if (serverName == null)
-                throw new ArgumentNullException(nameof(serverName));
-
-            return GetSession(new RavenConnection()
-            {
-                ServerName = serverName
-            });
         }
     }
 }

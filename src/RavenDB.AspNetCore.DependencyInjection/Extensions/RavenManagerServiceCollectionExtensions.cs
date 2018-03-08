@@ -15,8 +15,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// </summary>
         /// <param name="services">The services available in the application.</param>
         /// <param name="options">The options used to configure the Raven manager.</param>
-        /// <returns>The <see cref="RavenBuilder"/> this method created.</returns>
-        public static RavenBuilder AddRavenManager(
+        /// <returns>The <see cref="RavenManagerBuilder"/> this method created.</returns>
+        public static RavenManagerBuilder AddRavenManager(
             this IServiceCollection services,
             Action<RavenManagerOptions> options)
         {
@@ -29,17 +29,17 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// </summary>
         /// <param name="services">Service collection</param>
         /// <param name="options">The options used to configure the default Raven server.</param>
-        public static RavenBuilder AddRavenManagerWithDefaultServer(
+        public static RavenManagerBuilder AddRavenManagerWithDefaultServer(
             this IServiceCollection services,
-            Action<RavenServerOptions> options)
+            Action<RavenStoreOptions> options)
         {
-            var serverOptions = new RavenServerOptions();
+            var serverOptions = new RavenStoreOptions();
             options?.Invoke(serverOptions);
 
             return AddRavenManager<RavenManager, RavenManagerOptions>(services, moptions =>
             {
-                moptions.DefaultServer = "Main";
-                moptions.AddServer("Main", serverOptions);
+                moptions.DefaultServer = "Default";
+                moptions.AddServer("Default", serverOptions);
             });
         }
 
@@ -49,16 +49,16 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// </summary>
         /// <param name="services">Service collection</param>
         /// <param name="configuration">The configuration used to configure the default Raven server.</param>
-        public static RavenBuilder AddRavenManagerWithDefaultServer(
+        public static RavenManagerBuilder AddRavenManagerWithDefaultServer(
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            var serverOptions = configuration.Get<RavenServerOptions>();
+            var serverOptions = configuration.Get<RavenStoreOptions>();
 
             return AddRavenManager<RavenManager, RavenManagerOptions>(services, options =>
             {
-                options.DefaultServer = "Main";
-                options.AddServer("Main", serverOptions);
+                options.DefaultServer = "Default";
+                options.AddServer("Default", serverOptions);
             });
         }
 
@@ -69,7 +69,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// </summary>
         /// <param name="services">Service collection</param>
         /// <param name="configuration">Configuration to map from</param>
-        public static RavenBuilder AddRavenManager(
+        public static RavenManagerBuilder AddRavenManager(
             this IServiceCollection services,
             IConfiguration configuration)
         {
@@ -87,7 +87,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <typeparam name="TOptions">The type of options needed to configure the specified manager.</typeparam>
         /// <param name="services">Service collection</param>
         /// <param name="configuration">Configuration to map from</param>
-        public static RavenBuilder AddRavenManager<TValue, TOptions>(
+        public static RavenManagerBuilder AddRavenManager<TValue, TOptions>(
             this IServiceCollection services,
             IConfiguration configuration)
             where TOptions : class
@@ -105,8 +105,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <typeparam name="TOptions">The type of options needed to configure the specified manager.</typeparam>
         /// <param name="services">The services available in the application.</param>
         /// <param name="options">The options used to configure the manager.</param>
-        /// <returns>The <see cref="RavenBuilder"/> this method created.</returns>
-        public static RavenBuilder AddRavenManager<TValue, TOptions>(
+        /// <returns>The <see cref="RavenManagerBuilder"/> this method created.</returns>
+        public static RavenManagerBuilder AddRavenManager<TValue, TOptions>(
                this IServiceCollection services,
                Action<TOptions> options = null)
                 where TOptions : class
@@ -123,14 +123,14 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// </summary>
         /// <typeparam name="TValue">The type of the specified manager <see cref="IRavenManager"/>.</typeparam>
         /// <param name="services">The services available in the application.</param>
-        /// <returns>The <see cref="RavenBuilder"/> this method created.</returns>
-        public static RavenBuilder AddRavenManager<TValue>(
+        /// <returns>The <see cref="RavenManagerBuilder"/> this method created.</returns>
+        public static RavenManagerBuilder AddRavenManager<TValue>(
             this IServiceCollection services)
             where TValue : class, IRavenManager
         {
             services.AddSingleton<IRavenManager, TValue>();
 
-            return new RavenBuilder(services);
+            return new RavenManagerBuilder(services);
         }
     }
 }

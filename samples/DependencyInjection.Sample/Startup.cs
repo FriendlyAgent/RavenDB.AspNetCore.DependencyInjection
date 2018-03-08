@@ -1,11 +1,8 @@
-﻿using System;
-using DependencyInjection.Sample.Indexes;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Raven.Client.Documents.Indexes;
 using RavenDB.AspNetCore.DependencyInjection;
 using RavenDB.AspNetCore.DependencyInjection.Options;
 
@@ -29,7 +26,13 @@ namespace DependencyInjection.Sample
         public void ConfigureServices(IServiceCollection services)
         {                        
             // Use configuration from appsettings.json
-            services.AddRavenManager(Configuration.GetSection("Raven")).AddScopedAsyncSession();
+            //services
+            //    .AddRavenManager(Configuration.GetSection("RavenManager"))
+            //    .AddScopedAsyncSession();
+
+            //services
+            //    .AddRavenStore(Configuration.GetSection("RavenStore"))
+            //    .AddScopedSession();
 
             // Use configuration from appsettings.json
             //services.AddRavenManagerWithDefaultServer(options => {
@@ -44,17 +47,22 @@ namespace DependencyInjection.Sample
             //  options =>
             //  {
             //      options.DefaultServer = "Main";
-            //      options.AddServer("Main", new RavenServerOptions()
+            //      options.AddServer("Main", new RavenStoreOptions()
+            //      {
+            //          Url = "http://localhost:8080",
+            //          DefaultDatabase = "ravendb-dependency-injection"
+            //      });
+            //      options.AddServer("Test", new RavenStoreOptions()
+            //      {
+            //          Url = "http://localhost:8080",
+            //          DefaultDatabase = "ravendb-dependency-injection"
+            //      });
+            //      options.AddServer("Logging", new RavenStoreOptions()
             //      {
             //          Url = "{server url}",
-            //          Database = "{database name}"
+            //          DefaultDatabase = "{database name}"
             //      });
-            //      options.AddServer("Logging", new RavenServerOptions()
-            //      {
-            //          Url = "{server url}",
-            //         Database = "{database name}"
-            //      });
-            //  }).AddScopedAsyncSession();
+            //  }).AddScopedAsyncSession("Main");
 
             services.AddMvc();
         }
@@ -83,14 +91,6 @@ namespace DependencyInjection.Sample
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            ConfigureRaven(ravenManager);
-        }
-
-        protected void ConfigureRaven(IRavenManager manager) {
-            var store = manager.GetStore();
-
-            IndexCreation.CreateIndexes(typeof(Tests_ByName).Assembly, store);
         }
     }
 }

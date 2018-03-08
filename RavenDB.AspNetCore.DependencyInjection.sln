@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C363CB48-6225-4EB2-9476-7F0A4CE21336}"
 EndProject
@@ -9,7 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5399
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RavenDB.AspNetCore.DependencyInjection", "src\RavenDB.AspNetCore.DependencyInjection\RavenDB.AspNetCore.DependencyInjection.csproj", "{FD165F73-F347-4279-A8A9-454D04EF8084}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection.Sample", "samples\DependencyInjection.Sample\DependencyInjection.Sample.csproj", "{C4FA2EAB-AC84-4477-AA7B-B58FB17530A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyInjection.Sample", "samples\DependencyInjection.Sample\DependencyInjection.Sample.csproj", "{C4FA2EAB-AC84-4477-AA7B-B58FB17530A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Database.Loader", "samples\Sample.Database.Loader\Sample.Database.Loader.csproj", "{0A214DC1-B96B-4706-877F-BC4C229636B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{C4FA2EAB-AC84-4477-AA7B-B58FB17530A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4FA2EAB-AC84-4477-AA7B-B58FB17530A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4FA2EAB-AC84-4477-AA7B-B58FB17530A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A214DC1-B96B-4706-877F-BC4C229636B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A214DC1-B96B-4706-877F-BC4C229636B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A214DC1-B96B-4706-877F-BC4C229636B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A214DC1-B96B-4706-877F-BC4C229636B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FD165F73-F347-4279-A8A9-454D04EF8084} = {C363CB48-6225-4EB2-9476-7F0A4CE21336}
 		{C4FA2EAB-AC84-4477-AA7B-B58FB17530A8} = {5399A49C-3FEE-4145-8500-B4A1E06C9DBF}
+		{0A214DC1-B96B-4706-877F-BC4C229636B9} = {5399A49C-3FEE-4145-8500-B4A1E06C9DBF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B3E1419-C058-404B-A7DD-6871580A0A91}

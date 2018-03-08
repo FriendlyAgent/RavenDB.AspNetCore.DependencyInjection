@@ -13,7 +13,7 @@ namespace RavenDB.AspNetCore.DependencyInjection.Options
         /// </summary>
         public RavenManagerOptions()
         {
-            Servers = new ConcurrentDictionary<string, RavenServerOptions>();
+            Servers = new ConcurrentDictionary<string, RavenStoreOptions>();
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace RavenDB.AspNetCore.DependencyInjection.Options
         /// <summary>
         /// The collection containing all servers used to build stores.
         /// </summary>
-        public ConcurrentDictionary<string, RavenServerOptions> Servers { get; set; }
+        public ConcurrentDictionary<string, RavenStoreOptions> Servers { get; set; }
 
         /// <summary>
         /// Adds a server to the server collection.
@@ -38,10 +38,10 @@ namespace RavenDB.AspNetCore.DependencyInjection.Options
         /// <param name="options">The options used to configure this server.</param>
         public void AddServer(
             string serverName,
-            RavenServerOptions options)
+            RavenStoreOptions options)
         {
             if (Servers == null)
-                Servers = new ConcurrentDictionary<string, RavenServerOptions>();
+                Servers = new ConcurrentDictionary<string, RavenStoreOptions>();
 
             Servers.Add(serverName, options);
         }
