@@ -1,5 +1,5 @@
 ﻿using Raven.Client.Documents.Conventions;
-using Sparrow.Collections.LockFree;
+using System.Collections.Concurrent;
 
 namespace RavenDB.AspNetCore.DependencyInjection.Options
 {
@@ -43,7 +43,7 @@ namespace RavenDB.AspNetCore.DependencyInjection.Options
             if (Servers == null)
                 Servers = new ConcurrentDictionary<string, RavenStoreOptions>();
 
-            Servers.Add(serverName, options);
+            Servers.TryAdd(serverName, options);
         }
     }
 }
