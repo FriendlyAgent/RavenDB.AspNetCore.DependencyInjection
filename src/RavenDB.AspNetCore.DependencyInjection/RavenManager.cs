@@ -6,8 +6,8 @@ using Raven.Client.Documents.Session;
 using RavenDB.AspNetCore.DependencyInjection.Exceptions;
 using RavenDB.AspNetCore.DependencyInjection.Helpers;
 using RavenDB.AspNetCore.DependencyInjection.Options;
-using Sparrow.Collections.LockFree;
 using System;
+using System.Collections.Concurrent;
 using System.Linq;
 
 namespace RavenDB.AspNetCore.DependencyInjection
@@ -226,8 +226,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
 
             if (serverName == null)
                 throw new ArgumentNullException(nameof(serverName));
-
-            return (_servers.Remove(serverName) && _stores.Remove(serverName));
+			return (_servers.TryRemove(serverName, out _) && _stores.TryRemove(serverName, out _));
         }
 
         /// <summary>
