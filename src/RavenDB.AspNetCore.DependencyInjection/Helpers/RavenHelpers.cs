@@ -2,6 +2,7 @@
 using Raven.Client.Documents;
 using Raven.Client.Documents.Conventions;
 using RavenDB.AspNetCore.DependencyInjection.Options;
+using System;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 
@@ -31,8 +32,8 @@ namespace RavenDB.AspNetCore.DependencyInjection.Helpers
                 store.Conventions = options.Conventions;
             }
 
-            var hasCert = !string.IsNullOrWhiteSpace(options.CertificateFileName);
-            if (hasCert)
+            var hasFileCert = !string.IsNullOrWhiteSpace(options.CertificateFileName);
+            if (hasFileCert)
             {
                 var certFilePath = Path.Combine(host.ContentRootPath, options.CertificateFileName);
                 var hasCertPassword = !string.IsNullOrWhiteSpace(options.CertificatePassword);
@@ -43,6 +44,21 @@ namespace RavenDB.AspNetCore.DependencyInjection.Helpers
                 else
                 {
                     store.Certificate = new X509Certificate2(certFilePath);
+                }
+            }
+
+            var hasBase64Cert = !string.IsNullOrWhiteSpace(options.CertificateBase64);
+            if (hasBase64Cert)
+            {
+                var certFileData = Convert.FromBase64String(options.CertificateBase64);
+                var hasCertPassword = !string.IsNullOrWhiteSpace(options.CertificatePassword);
+                if (hasCertPassword)
+                {
+                    store.Certificate = new X509Certificate2(certFileData, options.CertificatePassword);
+                }
+                else
+                {
+                    store.Certificate = new X509Certificate2(certFileData);
                 }
             }
 
