@@ -62,6 +62,12 @@ namespace RavenDB.AspNetCore.DependencyInjection.Helpers
                 }
             }
 
+            var has509Certificate = options.ClientCertificate != null;
+            if (has509Certificate)
+            {
+                store.Certificate = options.ClientCertificate;
+            }
+
             return store;
         }
     }
