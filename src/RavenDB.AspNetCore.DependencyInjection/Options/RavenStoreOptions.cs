@@ -1,4 +1,5 @@
 ﻿using Raven.Client.Documents.Conventions;
+using System.Security.Cryptography.X509Certificates;
 
 namespace RavenDB.AspNetCore.DependencyInjection.Options
 {
@@ -23,9 +24,19 @@ namespace RavenDB.AspNetCore.DependencyInjection.Options
         public string CertificateFileName { get; set; }
 
         /// <summary>
+        /// The pfx certificate data stream used to connect to a secured Raven instance. You can use this property if your certificate is stored into Azure KeyVault.
+        /// </summary>
+        public string CertificateBase64 { get; set; }
+
+        /// <summary>
         /// The password for the certificate used to connect to a secured Raven instance.
         /// </summary>
         public string CertificatePassword { get; set; }
+
+        /// <summary>
+        /// The pfx certificate used to connect to a secured Raven instance. You can use this property if your certificate is stored into Azure KeyVault.
+        /// </summary>
+        public X509Certificate2 ClientCertificate { get; set; }
 
         /// <summary>
         /// The conventions used to determine Client API behavior.
