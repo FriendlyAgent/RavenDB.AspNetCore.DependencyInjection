@@ -1,8 +1,4 @@
-﻿#if NETSTANDARD_2_1 || NETCOREAPP_3_1
-using Microsoft.Extensions.Hosting;
-#else
-    using Microsoft.AspNetCore.Hosting;
-#endif
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -49,13 +45,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
                 var options = provider
                     .GetService<IOptions<RavenStoreOptions>>()?.Value;
 
-#if NETSTANDARD_2_1 || NETCOREAPP_3_1
                 var host = provider
                     .GetService<IHostEnvironment>();
-#else
-                var host = provider
-                    .GetService<IHostingEnvironment>();
-#endif
 
                 var store = RavenHelpers.CreateDocumentStore(host, options);
                 store.Initialize();

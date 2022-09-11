@@ -1,21 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" />
-    <PackageReference Include="RavenDB.Client" Version="5.2.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="RavenDB.Client" Version="4.2.106" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\RavenDB.AspNetCore.DependencyInjection\RavenDB.AspNetCore.DependencyInjection.csproj" />
-  </ItemGroup>
-
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\RavenDB.AspNetCore.DependencyInjection\RavenDB.AspNetCore.DependencyInjection.csproj" />
+	</ItemGroup>
 </Project>

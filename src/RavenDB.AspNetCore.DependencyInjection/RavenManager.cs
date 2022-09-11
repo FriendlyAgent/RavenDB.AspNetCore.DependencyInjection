@@ -1,9 +1,4 @@
-﻿#if NETSTANDARD_2_1 || NETCOREAPP_3_1
-    using Microsoft.Extensions.Hosting;
-#else
-    using Microsoft.AspNetCore.Hosting;
-#endif
-
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Conventions;
@@ -37,28 +32,17 @@ namespace RavenDB.AspNetCore.DependencyInjection
         private ConcurrentDictionary<string, Lazy<IDocumentStore>> _stores;
         private ConcurrentDictionary<string, RavenStoreOptions> _servers;
 
-#if NETSTANDARD_2_1 || NETCOREAPP_3_1
         private readonly IHostEnvironment _host;
-#else
-        private readonly IHostingEnvironment _host;
-#endif
 
         /// <summary>
         /// Initializes a new instance of the RavenManager class with specified options.
         /// </summary>
         /// <param name="options">Options that are used to configuration the RavenManager.</param>
         /// <param name="host">The hosting environment. This is used to fetch the certificate file used to connect to the database.</param>
-#if NETSTANDARD_2_1 || NETCOREAPP_3_1
         public RavenManager(
             IOptions<RavenManagerOptions> options,
             IHostEnvironment host)
         {
-#else
-        public RavenManager(
-            IOptions<RavenManagerOptions> options,
-            IHostingEnvironment host)
-        {
-#endif
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
@@ -98,7 +82,6 @@ namespace RavenDB.AspNetCore.DependencyInjection
 
             return _stores.GetOrAdd(serverName, CreateDocumentStore(serverName)).Value;
         }
-
 
         /// <summary>
         /// Gets a asynchronous session that uses the default server and database.

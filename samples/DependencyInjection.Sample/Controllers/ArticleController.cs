@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 using RavenDB.AspNetCore.DependencyInjection;
-using System.Threading.Tasks;
 
 namespace DependencyInjection.Sample.Controllers
 {
