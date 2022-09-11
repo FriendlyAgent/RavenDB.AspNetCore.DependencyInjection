@@ -28,6 +28,6 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
-		<PackageReference Include="RavenDB.Client" Version="4.2.106" />
+		<PackageReference Include="RavenDB.Client" Version="5.4.2" />
 	</ItemGroup>
 </Project>
