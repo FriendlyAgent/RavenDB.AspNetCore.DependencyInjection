@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿#if NETSTANDARD_2_1 || NETCOREAPP_3_1
+using Microsoft.Extensions.Hosting;
+#else
+    using Microsoft.AspNetCore.Hosting;
+#endif
+
 using Raven.Client.Documents;
 using Raven.Client.Documents.Conventions;
 using RavenDB.AspNetCore.DependencyInjection.Options;
@@ -9,11 +14,19 @@ namespace RavenDB.AspNetCore.DependencyInjection.Helpers
 {
     public static class RavenHelpers
     {
+#if NETSTANDARD_2_1 || NETCOREAPP_3_1
+        public static DocumentStore CreateDocumentStore(
+            IHostEnvironment host,
+            RavenStoreOptions options,
+            DocumentConventions defaultConventions = null)
+        {
+#else
         public static DocumentStore CreateDocumentStore(
             IHostingEnvironment host,
             RavenStoreOptions options, 
             DocumentConventions defaultConventions = null)
         {
+#endif
             var store = new DocumentStore
             {
                 Urls = new[] { options.Url },

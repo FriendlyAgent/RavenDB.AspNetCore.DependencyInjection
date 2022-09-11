@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿#if NETSTANDARD_2_1 || NETCOREAPP_3_1
+    using Microsoft.Extensions.Hosting;
+#else
+    using Microsoft.AspNetCore.Hosting;
+#endif
+
 using Microsoft.Extensions.Options;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Conventions;
@@ -31,25 +36,35 @@ namespace RavenDB.AspNetCore.DependencyInjection
         private bool _disposed;
         private ConcurrentDictionary<string, Lazy<IDocumentStore>> _stores;
         private ConcurrentDictionary<string, RavenStoreOptions> _servers;
-        private IHostingEnvironment _host;
+
+#if NETSTANDARD_2_1 || NETCOREAPP_3_1
+        private readonly IHostEnvironment _host;
+#else
+        private readonly IHostingEnvironment _host;
+#endif
 
         /// <summary>
         /// Initializes a new instance of the RavenManager class with specified options.
         /// </summary>
         /// <param name="options">Options that are used to configuration the RavenManager.</param>
         /// <param name="host">The hosting environment. This is used to fetch the certificate file used to connect to the database.</param>
+#if NETSTANDARD_2_1 || NETCOREAPP_3_1
+        public RavenManager(
+            IOptions<RavenManagerOptions> options,
+            IHostEnvironment host)
+        {
+#else
         public RavenManager(
             IOptions<RavenManagerOptions> options,
             IHostingEnvironment host)
         {
+#endif
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
             _disposed = false;
-            DefaultServer = options.Value.DefaultServer ??
-                options.Value.Servers.Keys.FirstOrDefault();
-            DefaultConventions = options.Value.DefaultConventions != null ?
-                options.Value.DefaultConventions : new DocumentConventions();
+            DefaultServer = options.Value.DefaultServer ?? options.Value.Servers.Keys.FirstOrDefault();
+            DefaultConventions = options.Value.DefaultConventions ?? new DocumentConventions();
 
             _stores = new ConcurrentDictionary<string, Lazy<IDocumentStore>>();
             _servers = options.Value.Servers;
@@ -226,7 +241,9 @@ namespace RavenDB.AspNetCore.DependencyInjection
 
             if (serverName == null)
                 throw new ArgumentNullException(nameof(serverName));
-			return (_servers.TryRemove(serverName, out _) && _stores.TryRemove(serverName, out _));
+
+            return (_servers.TryRemove(serverName, out _)
+                && _stores.TryRemove(serverName, out _));
         }
 
         /// <summary>
