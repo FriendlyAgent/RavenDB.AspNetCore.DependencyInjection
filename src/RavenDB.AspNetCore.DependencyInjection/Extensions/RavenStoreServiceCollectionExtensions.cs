@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RavenDB.AspNetCore.DependencyInjection.Helpers;
@@ -45,10 +44,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
                 var options = provider
                     .GetService<IOptions<RavenStoreOptions>>()?.Value;
 
-                var host = provider
-                    .GetService<IHostEnvironment>();
-
-                var store = RavenHelpers.CreateDocumentStore(host, options);
+                var store = RavenHelpers.CreateDocumentStore(options);
                 store.Initialize();
 
                 return store;

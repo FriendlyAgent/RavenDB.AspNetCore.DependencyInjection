@@ -9,7 +9,7 @@ namespace RavenDB.AspNetCore.DependencyInjection.Options
     public class RavenStoreOptions
     {
         /// <summary>
-        /// The url used to connect to a server.
+        /// The URL used to connect to a server.
         /// </summary>
         public string Url { get; set; }
 
@@ -19,24 +19,14 @@ namespace RavenDB.AspNetCore.DependencyInjection.Options
         public string DefaultDatabase { get; set; }
 
         /// <summary>
-        /// The name of the .pfx file used to connect to a secured Raven instance. For example, if mycert.pfx is in /bin, set this to "mycert.pfx"
+        /// The certificate used to connect to a secured Raven instance.
         /// </summary>
-        public string CertificateFileName { get; set; }
-
-        /// <summary>
-        /// The pfx certificate data stream used to connect to a secured Raven instance. You can use this property if your certificate is stored into Azure KeyVault.
-        /// </summary>
-        public string CertificateBase64 { get; set; }
+        public X509Certificate2 DefaultCertificate { get; set; }
 
         /// <summary>
         /// The password for the certificate used to connect to a secured Raven instance.
         /// </summary>
         public string CertificatePassword { get; set; }
-
-        /// <summary>
-        /// The pfx certificate used to connect to a secured Raven instance. You can use this property if your certificate is stored into Azure KeyVault.
-        /// </summary>
-        public X509Certificate2 ClientCertificate { get; set; }
 
         /// <summary>
         /// The conventions used to determine Client API behavior.

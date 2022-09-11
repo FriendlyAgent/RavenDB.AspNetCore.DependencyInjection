@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Conventions;
 using Raven.Client.Documents.Session;
@@ -32,16 +31,13 @@ namespace RavenDB.AspNetCore.DependencyInjection
         private ConcurrentDictionary<string, Lazy<IDocumentStore>> _stores;
         private ConcurrentDictionary<string, RavenStoreOptions> _servers;
 
-        private readonly IHostEnvironment _host;
-
         /// <summary>
         /// Initializes a new instance of the RavenManager class with specified options.
         /// </summary>
         /// <param name="options">Options that are used to configuration the RavenManager.</param>
-        /// <param name="host">The hosting environment. This is used to fetch the certificate file used to connect to the database.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public RavenManager(
-            IOptions<RavenManagerOptions> options,
-            IHostEnvironment host)
+            IOptions<RavenManagerOptions> options)
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
@@ -52,13 +48,13 @@ namespace RavenDB.AspNetCore.DependencyInjection
 
             _stores = new ConcurrentDictionary<string, Lazy<IDocumentStore>>();
             _servers = options.Value.Servers;
-            _host = host;
         }
 
         /// <summary>
         /// Get a store from the default server.
         /// </summary>
         /// <returns>The store from the default server.</returns>
+        /// <exception cref="UnknownServerException"></exception>
         public IDocumentStore GetStore()
         {
             if (DefaultServer == null)
@@ -165,7 +161,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
             var server = _servers[serverName];
             return new Lazy<IDocumentStore>(() =>
             {
-                var store = RavenHelpers.CreateDocumentStore(_host, server);
+                var store = RavenHelpers.CreateDocumentStore(server);
                 store.Initialize();
                 return store;
             });
