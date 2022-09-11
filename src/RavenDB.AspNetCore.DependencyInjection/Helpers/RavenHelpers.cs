@@ -21,7 +21,7 @@ namespace RavenDB.AspNetCore.DependencyInjection.Helpers
         {
             var store = new DocumentStore
             {
-                Urls = new[] { options.Url },
+                Urls = options.Urls,
                 Database = options.DefaultDatabase ?? ""
             };
 

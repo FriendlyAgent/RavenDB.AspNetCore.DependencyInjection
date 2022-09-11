@@ -9,9 +9,9 @@ namespace RavenDB.AspNetCore.DependencyInjection.Options
     public class RavenStoreOptions
     {
         /// <summary>
-        /// The URL used to connect to a server.
+        /// The URLs used to connect to a server.
         /// </summary>
-        public string Url { get; set; }
+        public string[] Urls { get; set; }
 
         /// <summary>
         /// The database used when no specific database is specified.
