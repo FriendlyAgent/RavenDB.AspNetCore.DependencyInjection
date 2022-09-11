@@ -15,7 +15,7 @@
         /// <summary>
         /// Initializes a new instance of the RavenConnection class with a specified server
         /// </summary>
-        /// <param name="serverName">The url to a server.</param>
+        /// <param name="serverName">The name to a server.</param>
         public RavenConnection(
             string serverName)
             : this(serverName, null)
@@ -25,7 +25,7 @@
         /// <summary>
         /// Initializes a new instance of the RavenConnection class with a specified server and database
         /// </summary>
-        /// <param name="serverName">The url to a server.</param>
+        /// <param name="serverName">The name to a server.</param>
         /// <param name="database">The name of a database.</param>
         public RavenConnection(
             string serverName,

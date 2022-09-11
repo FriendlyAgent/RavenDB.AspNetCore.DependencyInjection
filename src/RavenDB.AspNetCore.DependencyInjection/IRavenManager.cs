@@ -24,13 +24,18 @@ namespace RavenDB.AspNetCore.DependencyInjection
         IDocumentStore GetStore();
 
         /// <summary>
-        /// Gets a asynchronous session that uses the specified  server and database.
+        /// Gets a asynchronous session that uses the specified server and database.
         /// </summary>
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
-        /// <returns>the specified asynchronous Session.</returns>
+        /// <returns>The specified asynchronous Session.</returns>
         IAsyncDocumentSession GetAsyncSession(
             RavenConnection connection);
 
+        /// <summary>
+        /// Gets a asynchronous session that uses the specified server.
+        /// </summary>
+        /// <param name="serverName">The name of the server.</param>
+        /// <returns>A asynchronous session from the specified server.</returns>
         IAsyncDocumentSession GetAsyncSession(
             string serverName);
 
@@ -39,21 +44,26 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// </summary>
         /// <returns>a asynchronous session for the default server and database.</returns>
         IAsyncDocumentSession GetAsyncSession();
-
         /// <summary>
-        /// Gets a session that uses the specified  server and database.
+        /// Gets a asynchronous session that uses the specified server and database.
         /// </summary>
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
+        /// <returns>The specified asynchronous Session.</returns>
         IDocumentSession GetSession(
             RavenConnection connection);
 
+        /// <summary>
+        /// Gets a asynchronous session that uses the specified server.
+        /// </summary>
+        /// <param name="serverName">The name of the server.</param>
+        /// <returns>A asynchronous session from the specified server.</returns>
         IDocumentSession GetSession(
             string serverName);
 
-        /// <summary>
-        /// Gets a session that uses the default server and database.
-        /// </summary>
-        /// <returns>a session for the default server and database.</returns>
+        ///<summary>
+        ///Gets a session that uses the default server and database.
+        ///</summary>
+        /// <returns>A session for the default server and database.</returns>
         IDocumentSession GetSession();
 
         /// <summary>

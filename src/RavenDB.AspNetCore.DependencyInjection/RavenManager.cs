@@ -68,6 +68,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// </summary>
         /// <param name="serverName">The name of the server to get.</param>
         /// <returns>The store from the specified server.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public IDocumentStore GetStore(
             string serverName)
         {
@@ -83,6 +84,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// Gets a asynchronous session that uses the default server and database.
         /// </summary>
         /// <returns>a asynchronous session for the default server and database.</returns>
+        /// <exception cref="UnknownServerException"></exception>
         public IAsyncDocumentSession GetAsyncSession()
         {
             if (DefaultServer == null)
@@ -98,7 +100,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// Gets a asynchronous session that uses the specified server and database.
         /// </summary>
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
-        /// <returns>the specified asynchronous Session.</returns>
+        /// <returns>The specified asynchronous Session.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public IAsyncDocumentSession GetAsyncSession(
             RavenConnection connection)
         {
@@ -113,9 +116,26 @@ namespace RavenDB.AspNetCore.DependencyInjection
         }
 
         /// <summary>
-        /// Gets a session that uses the default server and database.
+        /// Gets a asynchronous session that uses the specified server.
         /// </summary>
-        /// <returns>a session for the default server and database.</returns>
+        /// <param name="serverName">The name of the server.</param>
+        /// <returns>A asynchronous session from the specified server.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public IAsyncDocumentSession GetAsyncSession(
+            string serverName)
+        {
+            if (serverName == null)
+                throw new ArgumentNullException(nameof(serverName));
+
+            return GetAsyncSession(new RavenConnection()
+            {
+                ServerName = serverName
+            });
+        }
+
+        ///<summary>Gets a session that uses the default server and database.</summary>
+        /// <returns>A session for the default server and database.</returns>
+        /// <exception cref="UnknownServerException"></exception>
         public IDocumentSession GetSession()
         {
             if (DefaultServer == null)
@@ -132,6 +152,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// </summary>
         /// <param name="connection">The class containing all the information needed to find the correct server and establish the session.</param>
         /// <returns>The specified Session.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public IDocumentSession GetSession(
             RavenConnection connection)
         {
@@ -146,10 +167,29 @@ namespace RavenDB.AspNetCore.DependencyInjection
         }
 
         /// <summary>
+        /// Gets a session that uses the specified server
+        /// </summary>
+        /// <param name="serverName">The name of the server.</param>
+        /// <returns>A session from the specified server.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public IDocumentSession GetSession(
+            string serverName)
+        {
+            if (serverName == null)
+                throw new ArgumentNullException(nameof(serverName));
+
+            return GetSession(new RavenConnection()
+            {
+                ServerName = serverName
+            });
+        }
+
+        /// <summary>
         /// Create a new document store
         /// </summary>
         /// <param name="serverName">The name of the server which you want to create a document store for.</param>
         /// <returns></returns>
+        /// <exception cref="UnknownServerException"></exception>
         private Lazy<IDocumentStore> CreateDocumentStore(
             string serverName)
         {
@@ -173,8 +213,10 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <param name="serverName">The name of the server.</param>
         /// <param name="serverOptions">The options for the server.</param>
         /// <returns>a bool which is true if the server was successfully added.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public bool AddServer(
-            string serverName, RavenStoreOptions serverOptions)
+            string serverName,
+            RavenStoreOptions serverOptions)
         {
             ThrowIfDisposed();
 
@@ -187,34 +229,14 @@ namespace RavenDB.AspNetCore.DependencyInjection
             return _servers.TryAdd(serverName, serverOptions);
         }
 
-        public IAsyncDocumentSession GetAsyncSession(string serverName)
-        {
-            if (serverName == null)
-                throw new ArgumentNullException(nameof(serverName));
-
-            return GetAsyncSession(new RavenConnection()
-            {
-                ServerName = serverName
-            });
-        }
-
-        public IDocumentSession GetSession(string serverName)
-        {
-            if (serverName == null)
-                throw new ArgumentNullException(nameof(serverName));
-
-            return GetSession(new RavenConnection()
-            {
-                ServerName = serverName
-            });
-        }
-
         /// <summary>
         /// Remove a server from the raven manager.
         /// </summary>
         /// <param name="serverName">The name of the server.</param>
         /// <returns>a bool which is true if the server was successfully removed.</returns>
-        public bool RemoveServer(string serverName)
+        /// <exception cref="ArgumentNullException"></exception>
+        public bool RemoveServer(
+            string serverName)
         {
             ThrowIfDisposed();
 
@@ -228,6 +250,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <summary>
         /// Throws if this class has been disposed.
         /// </summary>
+        /// <exception cref="ObjectDisposedException"></exception>
         protected void ThrowIfDisposed()
         {
             if (_disposed)
@@ -247,7 +270,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// Dispose the stores and servers.
         /// </summary>
         /// <param name="disposing">Whether the class is actually disposing.</param>
-        protected virtual void Dispose(bool disposing)
+        protected virtual void Dispose(
+            bool disposing)
         {
             if (disposing)
             {

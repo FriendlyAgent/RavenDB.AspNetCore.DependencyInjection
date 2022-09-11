@@ -28,6 +28,12 @@ namespace RavenDB.AspNetCore.DependencyInjection
             return AddRavenStore(services);
         }
 
+        /// <summary>
+        /// Adds a RavenDB store <see cref="RavenStoreBuilder"/>.
+        /// </summary>
+        /// <param name="services">The services available in the application.</param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static RavenStoreBuilder AddRavenStore(
             this IServiceCollection services,
             IConfiguration configuration)
@@ -36,6 +42,11 @@ namespace RavenDB.AspNetCore.DependencyInjection
             return AddRavenStore(services);
         }
 
+        /// <summary>
+        /// Adds a RavenDB store <see cref="RavenStoreBuilder"/>.
+        /// </summary>
+        /// <param name="services">The services available in the application.</param>
+        /// <returns></returns>
         public static RavenStoreBuilder AddRavenStore(
             this IServiceCollection services)
         {

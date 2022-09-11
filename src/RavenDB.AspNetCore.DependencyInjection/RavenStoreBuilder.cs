@@ -6,12 +6,12 @@ using System;
 namespace RavenDB.AspNetCore.DependencyInjection
 {
     /// <summary>
-    /// A class responsible the the injection of sessions
+    /// A class responsible the injection of sessions
     /// </summary>
     public class RavenStoreBuilder
     {
         /// <summary>
-        /// A class responsible the the injection of sessions
+        /// A class responsible the injection of sessions
         /// </summary>
         public IServiceCollection Services { get; private set; }
 
@@ -19,7 +19,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// Initializes a new instance of the RavenStoreBuilder class.
         /// <param name="services">The services available in the application.</param>
         /// </summary>
-        public RavenStoreBuilder(IServiceCollection services)
+        public RavenStoreBuilder(
+            IServiceCollection services)
         {
             Services = services;
         }
@@ -38,7 +39,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
             Services.AddScoped<IDocumentSession, IDocumentSession>(provider =>
             {
                 var store = provider
-                      .GetService<IDocumentStore>();
+                    .GetService<IDocumentStore>();
 
                 return store.OpenSession(database);
             });
@@ -64,7 +65,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         }
 
         /// <summary>
-        /// Adds a asynchronous  session that uses the default database.
+        /// Adds a asynchronous session that uses the default database.
         /// </summary>
         /// <param name="database">The name of the database which you want to use to establish the session.</param>
         /// <returns>The <see cref="RavenStoreBuilder"/> this method is contained in.</returns>

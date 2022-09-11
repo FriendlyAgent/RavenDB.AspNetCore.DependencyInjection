@@ -5,12 +5,12 @@ using System;
 namespace RavenDB.AspNetCore.DependencyInjection
 {
     /// <summary>
-    /// A class responsible the the injection of sessions
+    /// The builder used to inject the RavenDB Manager.
     /// </summary>
     public class RavenManagerBuilder
     {
         /// <summary>
-        /// A class responsible the the injection of sessions
+        /// The service used to inject everything.
         /// </summary>
         public IServiceCollection Services { get; private set; }
 
@@ -18,7 +18,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// Initializes a new instance of the RavenManagerBuilder class.
         /// <param name="services">The services available in the application.</param>
         /// </summary>
-        public RavenManagerBuilder(IServiceCollection services)
+        public RavenManagerBuilder(
+            IServiceCollection services)
         {
             Services = services;
         }
@@ -29,7 +30,8 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <param name="getConnection">The action used to get the connection class which in turn will be used to establish the session.</param>
         /// <returns>The <see cref="RavenManagerBuilder"/> this method is contained in.</returns>
         public RavenManagerBuilder AddScopedAsyncSession(
-            Func<IServiceProvider, RavenConnection> getConnection)
+            Func<IServiceProvider,
+            RavenConnection> getConnection)
         {
             if (getConnection == null)
                 throw new ArgumentNullException(nameof(getConnection));
@@ -115,7 +117,7 @@ namespace RavenDB.AspNetCore.DependencyInjection
         /// <param name="getConnection">The action used to get the connection class which in turn will be used to establish the session.</param>
         /// <returns>The <see cref="RavenManagerBuilder"/> this method is contained in.</returns>
         public RavenManagerBuilder AddScopedSession(
-         Func<IServiceProvider, RavenConnection> getConnection)
+            Func<IServiceProvider, RavenConnection> getConnection)
         {
             if (getConnection == null)
                 throw new ArgumentNullException(nameof(getConnection));
