@@ -5,19 +5,21 @@ using RavenDB.AspNetCore.DependencyInjection.Options;
 namespace RavenDB.AspNetCore.DependencyInjection.Helpers
 {
     /// <summary>
-    /// Helper for creating the DocumentStore
+    /// Helper methods for creating and configuring RavenDB document stores.
     /// </summary>
     public static class RavenHelpers
     {
         /// <summary>
-        /// Creates a standard DocumetStore.
+        /// Creates a standard DocumentStore.
         /// </summary>
-        /// <param name="options"></param>
-        /// <param name="defaultConventions"></param>
-        /// <returns></returns>
+        /// <param name="options">The store options containing URLs, database, and store-specific settings.</param>
+        /// <param name="defaultConventions">Default conventions to use if the store doesn't specify its own.</param>
+        /// <param name="defaultCertificateOptions">Default certificate options to use if the store doesn't specify its own.</param>
+        /// <returns>A configured DocumentStore ready to be initialized.</returns>
         public static DocumentStore CreateDocumentStore(
             RavenStoreOptions options,
-            DocumentConventions defaultConventions = null)
+            DocumentConventions defaultConventions = null,
+            RavenCertificateOptions defaultCertificateOptions = null)
         {
             var store = new DocumentStore
             {
@@ -25,18 +27,23 @@ namespace RavenDB.AspNetCore.DependencyInjection.Helpers
                 Database = options.DefaultDatabase ?? ""
             };
 
-            if (options.Conventions == null && defaultConventions != null)
-            {
-                store.Conventions = defaultConventions;
-            }
-            else if (options.Conventions != null)
+            // Use cluster-specific conventions, otherwise use default conventions
+            if (options.Conventions != null)
             {
                 store.Conventions = options.Conventions;
             }
-
-            if (options.DefaultCertificate != null)
+            else if (defaultConventions != null)
             {
-                store.Certificate = options.DefaultCertificate;
+                store.Conventions = defaultConventions;
+            }
+
+            // Load certificate - cluster-specific takes priority over default
+            var certificate = options.CertificateOptions?.LoadCertificate()
+                ?? defaultCertificateOptions?.LoadCertificate();
+
+            if (certificate != null)
+            {
+                store.Certificate = certificate;
             }
 
             return store;

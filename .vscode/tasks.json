@@ -1,0 +1,64 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ravendb: start",
+      "type": "shell",
+      "command": "docker compose up -d",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "group": "ravendb"
+      }
+    },
+    {
+      "label": "ravendb: stop",
+      "type": "shell",
+      "command": "docker compose down",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "group": "ravendb"
+      }
+    },
+    {
+      "label": "ravendb: stop and clean data",
+      "type": "shell",
+      "command": "docker compose down -v",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "group": "ravendb"
+      }
+    },
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "dotnet build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "sample-mvc: run",
+      "type": "shell",
+      "command": "dotnet run --project ${workspaceFolder}/samples/DependencyInjectionSample.Mvc",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "sample-console: run",
+      "type": "shell",
+      "command": "dotnet run --project ${workspaceFolder}/samples/DependencyInjectionSample.Console",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always"
+      }
+    }
+  ]
+}

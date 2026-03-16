@@ -1,5 +1,7 @@
-﻿using Raven.Client.Documents.Conventions;
+using Raven.Client.Documents.Conventions;
+using System;
 using System.Collections.Concurrent;
+using System.Linq;
 
 namespace RavenDB.AspNetCore.DependencyInjection.Options
 {
@@ -13,13 +15,13 @@ namespace RavenDB.AspNetCore.DependencyInjection.Options
         /// </summary>
         public RavenManagerOptions()
         {
-            Servers = new ConcurrentDictionary<string, RavenStoreOptions>();
+            Clusters = new ConcurrentDictionary<string, RavenStoreOptions>();
         }
 
         /// <summary>
-        /// The server used when no specific server is specified.
+        /// The cluster key used when no specific cluster is specified.
         /// </summary>
-        public string DefaultServer { get; set; }
+        public string DefaultCluster { get; set; }
 
         /// <summary>
         /// The conventions used when no specific conventions are specified.
@@ -27,23 +29,29 @@ namespace RavenDB.AspNetCore.DependencyInjection.Options
         public DocumentConventions DefaultConventions { get; set; }
 
         /// <summary>
-        /// The collection containing all servers used to build stores.
+        /// Default certificate configuration for authenticating with RavenDB clusters.
+        /// This will be used for all clusters that don't specify their own CertificateOptions.
+        /// Supports multiple loading methods: direct object, file path, certificate store, PEM files, or Base64.
         /// </summary>
-        public ConcurrentDictionary<string, RavenStoreOptions> Servers { get; set; }
+        public RavenCertificateOptions DefaultCertificateOptions { get; set; }
 
         /// <summary>
-        /// Adds a server to the server collection.
+        /// The collection containing all stores. Each store connects to a RavenDB cluster with multiple URLs for high availability.
         /// </summary>
-        /// <param name="serverName">The name of the server.</param>
-        /// <param name="options">The options used to configure this server.</param>
-        public void AddServer(
-            string serverName,
+        public ConcurrentDictionary<string, RavenStoreOptions> Clusters { get; set; }
+
+        /// <summary>
+        /// Adds a cluster to the cluster collection.
+        /// </summary>
+        /// <param name="clusterKey">The key of the cluster.</param>
+        /// <param name="options">The options used to configure this cluster.</param>
+        public void AddCluster(
+            string clusterKey,
             RavenStoreOptions options)
         {
-            if (Servers == null)
-                Servers = new ConcurrentDictionary<string, RavenStoreOptions>();
+            Clusters ??= new ConcurrentDictionary<string, RavenStoreOptions>();
 
-            Servers.TryAdd(serverName, options);
+            Clusters.TryAdd(clusterKey, options);
         }
     }
 }

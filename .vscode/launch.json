@@ -1,0 +1,45 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Sample: MVC App",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/samples/DependencyInjectionSample.Mvc/bin/Debug/net9.0/DependencyInjectionSample.Mvc.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/samples/DependencyInjectionSample.Mvc",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "preLaunchTask": "build",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      }
+    },
+    {
+      "name": "Sample: Console App",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/samples/DependencyInjectionSample.Console/bin/Debug/net9.0/DependencyInjectionSample.Console.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/samples/DependencyInjectionSample.Console",
+      "console": "integratedTerminal",
+      "preLaunchTask": "build"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "RavenDB + Sample: MVC App",
+      "configurations": ["Sample: MVC App"],
+      "preLaunchTask": "ravendb: start",
+      "stopAll": false
+    },
+    {
+      "name": "RavenDB + Sample: Console App",
+      "configurations": ["Sample: Console App"],
+      "preLaunchTask": "ravendb: start",
+      "stopAll": false
+    }
+  ]
+}

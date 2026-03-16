@@ -1,0 +1,28 @@
+services:
+  ravendb:
+    image: ravendb/ravendb:7.2-latest
+    container_name: ravendb-dependency-injection-server
+    ports:
+      - "8080:8080"
+      - "38888:38888"
+    environment:
+      - RAVEN_Setup_Mode=None
+      - RAVEN_Security_UnsecuredAccessAllowed=PublicNetwork
+      - RAVEN_License_Eula_Accepted=true
+    volumes:
+      - ravendb-data:/opt/ravendb/Server/RavenData
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/setup/alive"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - ravendb-dependency-injection
+
+networks:
+  ravendb-dependency-injection:
+    driver: bridge
+
+volumes:
+  ravendb-data:

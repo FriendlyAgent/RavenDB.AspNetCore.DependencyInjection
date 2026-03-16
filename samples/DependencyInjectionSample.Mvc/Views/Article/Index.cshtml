@@ -1,0 +1,36 @@
+@model DependencyInjectionSample.Mvc.Models.ArticleViewModels.IndexViewModel
+@{
+    ViewData["Title"] = "Articles";
+}
+
+<h2>Articles</h2>
+<p>The following results are from: <strong>@Model.Store</strong></p>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Content</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var article in Model.Articles)
+        {
+            <tr>
+                <td>@article.Id</td>
+                <td>@article.Name</td>
+                <td>@article.Content</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@article.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@article.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>RavenDB DependencyInjection Example</h1>
+    <p class="lead">
+        This example application demonstrates how to use
+        <strong>RavenDB.AspNetCore.DependencyInjection</strong> with
+        <strong>AddRavenManager</strong> to build an ASP.NET Core MVC
+        application with RavenDB-backed data access.
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <dl>
+            <dt>RavenManager</dt>
+            <dd>
+                This sample uses <code>AddRavenManager</code> to register a RavenDB cluster
+                from <code>appsettings.json</code>. The <code>IDocumentStore</code> is created
+                as a singleton and <code>IAsyncDocumentSession</code> is scoped per HTTP request.
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Session Injection</dt>
+            <dd>
+                Controllers receive an <code>IAsyncDocumentSession</code> through constructor
+                injection. The session is automatically opened at the start of a request and
+                disposed at the end — no manual lifecycle management needed.
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Features</dt>
+            <dd>
+                <ul>
+                    <li>CRUD operations on Articles</li>
+                    <li>RavenDB static indexes</li>
+                    <li>Automatic database creation</li>
+                    <li>Test data seeding</li>
+                    <li>Configuration via appsettings.json</li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <dl>
+            <dt>Getting Started</dt>
+            <dd>
+                <ol>
+                    <li>Make sure RavenDB is running at <code>http://localhost:8080</code></li>
+                    <li>Run the application</li>
+                    <li>The database, indexes, and test data are created automatically</li>
+                    <li>Browse the <a asp-controller="Article" asp-action="Index">Articles</a> page</li>
+                </ol>
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <dl>
+            <dt>Configuration</dt>
+            <dd>
+                The RavenDB connection is configured in <code>appsettings.json</code> under
+                the <code>RavenManager</code> section:
+                <ul>
+                    <li><strong>Cluster:</strong> Main</li>
+                    <li><strong>URL:</strong> http://localhost:8080</li>
+                    <li><strong>Database:</strong> ravendb-dependency-injection</li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+</div>

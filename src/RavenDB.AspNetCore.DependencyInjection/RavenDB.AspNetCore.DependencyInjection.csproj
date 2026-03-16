@@ -1,33 +1,60 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<Description>Dependency Injection package for using RavenDB with ASP.NET Core.</Description>
-		<Copyright>Copyright 2022</Copyright>
-		<AssemblyTitle>RavenDB AspNetCore DependencyInjection</AssemblyTitle>
-		<Title>RavenDB AspNetCore DependencyInjection</Title>
-		<VersionPrefix>1.1.1-beta</VersionPrefix>
-		<Authors>FriendlyAgent</Authors>
-		<TargetFrameworks>net6.0;net5.0;netcoreapp3.1;netstandard2.1;netstandard2.0</TargetFrameworks>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<AssemblyName>RavenDB.AspNetCore.DependencyInjection</AssemblyName>
-		<PackageId>RavenDB.AspNetCore.DependencyInjection</PackageId>
-		<PackageTags>nosql;ravendb;raven;document;database;client;dependency;injection;ASP.NET;core</PackageTags>
-		<PackageIconUrl>http://static.ravendb.net/logo-for-nuget.png</PackageIconUrl>
-		<PackageProjectUrl>https://github.com/FriendlyAgent/RavenDB.AspNetCore.DependencyInjection</PackageProjectUrl>
-		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/FriendlyAgent/RavenDB.AspNetCore.DependencyInjection</RepositoryUrl>
-		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-		<Version>1.1.1-rc</Version>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-	</PropertyGroup>
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
-		<PackageReference Include="RavenDB.Client" Version="5.4.2" />
-	</ItemGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Dependency Injection package for using RavenDB with ASP.NET Core. Fully modular -- every component (manager, session factory, sessions) can be replaced with your own implementation. Supports single and multi-cluster setups, keyed services, and dynamic cluster management.</Description>
+    <Copyright>Copyright 2025</Copyright>
+    <Title>RavenDB AspNetCore DependencyInjection</Title>
+    <AssemblyTitle>RavenDB AspNetCore DependencyInjection</AssemblyTitle>
+    <Authors>FriendlyAgent</Authors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>RavenDB.AspNetCore.DependencyInjection</AssemblyName>
+    <PackageId>RavenDB.AspNetCore.DependencyInjection</PackageId>
+    <PackageTags>nosql;ravendb;raven;document;database;client;dependency;injection;ASP.NET;core</PackageTags>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageIcon>logo-for-nuget.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/FriendlyAgent/RavenDB.AspNetCore.DependencyInjection</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/FriendlyAgent/RavenDB.AspNetCore.DependencyInjection</RepositoryUrl>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+
+    <!-- Versioning -->
+    <VersionPrefix>1.1.0</VersionPrefix>
+    <Version>1.1.0</Version>
+    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <PackageReleaseNotes>See CHANGELOG.md for details</PackageReleaseNotes>
+
+    <!-- NuGet Package Generation -->
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+
+    <LangVersion>latest</LangVersion>
+    <NoWarn>$(NoWarn);CA2252</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\logo-for-nuget.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Support RavenDB 6.x and 7.x (6.0.2 and above) -->
+    <PackageReference Include="RavenDB.Client" Version="[6.0.2,8.0.0)" />
+  </ItemGroup>
 </Project>
